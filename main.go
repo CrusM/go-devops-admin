@@ -1,13 +1,27 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"go-devops-admin/bootstrap"
+	btsConfig "go-devops-admin/config"
+	"go-devops-admin/pkg/config"
 
 	"github.com/gin-gonic/gin"
 )
 
+func init() {
+	btsConfig.Initialize()
+}
+
 func main() {
+
+	// 配置初始化， 依赖命令行--env参数
+	var env string
+	flag.StringVar(&env, "env", "", "加载.env文件，如 --env=testing 加载的是 .env.testing 文件")
+	flag.Parse()
+	config.InitConfig(env)
+
 	// 初始化一个gin Engine实例
 	r := gin.New()
 
