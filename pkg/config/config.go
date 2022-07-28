@@ -19,7 +19,7 @@ var ConfigFuncs map[string]ConfigFunc
 
 func init() {
 	// 初始化viper库
-	viper := viperLib.New()
+	viper = viperLib.New()
 
 	// 配置类型,支持"json","toml","yaml", "yml", "properties", "props", "prop", "env", "dotenv"
 	viper.SetConfigType("env")
@@ -65,7 +65,6 @@ func LoadEnv(envSuffix string) {
 	viper.SetConfigName(envPath)
 	if err := viper.ReadInConfig(); err != nil {
 		panic(err.Error())
-
 	}
 
 	// 监控 .env 配置文件，变更时重新加载
