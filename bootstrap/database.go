@@ -3,6 +3,8 @@ package bootstrap
 import (
 	"errors"
 	"fmt"
+
+	"go-devops-admin/app/models/user"
 	"go-devops-admin/pkg/config"
 	"go-devops-admin/pkg/database"
 	"time"
@@ -48,4 +50,11 @@ func SetupDB() {
 	database.SQL_DB.SetMaxOpenConns(config.GetInt("database.mysql.max_open_connections"))
 	// 设置最大超时时间
 	database.SQL_DB.SetConnMaxLifetime(time.Duration(config.GetInt("database.mysql.max_life_seconds")) * time.Second)
+
+	// 自动迁移
+	AutoMigrate()
+}
+
+func AutoMigrate() {
+	database.DB.AutoMigrate(&user.User{})
 }
