@@ -24,8 +24,7 @@ func SetupRoute(r *gin.Engine) {
 func registerGlobalMiddleWare(r *gin.Engine) {
 	r.Use(
 		middleware.Logger(),
-		// gin.Logger(),
-		gin.Recovery(),
+		middleware.Recovery(),
 	)
 }
 
