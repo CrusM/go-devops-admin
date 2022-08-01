@@ -1,6 +1,7 @@
 package logger
 
 import (
+	"encoding/json"
 	"fmt"
 	"go-devops-admin/pkg/app"
 	"os"
@@ -97,4 +98,102 @@ func getLogWriter(filename string, maxSize, maxBackup, maxAge int, compress bool
 		// 生产环境只记录日志文件
 		return zapcore.AddSync(lumberJackLogger)
 	}
+}
+
+/* 添加一些日志辅助方法，既方便我们的调用，又对 zap 进行封装 */
+// Dump 调试专用,不会中断程序,会在终端打印warning消息
+// 第一个参数将内容转换成json格式，第二个参数可选,添加消息title
+func Dump(value interface{}, msg ...string) {
+	valueString := jsonString(value)
+	if len(msg) > 0 {
+		Logger.Warn("Dump", zap.String(msg[0], valueString))
+	} else {
+		Logger.Warn("Dump", zap.String("data", valueString))
+	}
+}
+
+// 当 err != nil 时, 记录不同等级日志
+func LogIf(err error) {
+	if err != nil {
+		Logger.Error("Error Occurred", zap.Error(err))
+	}
+}
+
+func LogWarnIf(err error) {
+	if err != nil {
+		Logger.Warn("Error Occurred", zap.Error(err))
+	}
+}
+
+func LogInfoIf(err error) {
+	if err != nil {
+		Logger.Info("Error Occurred", zap.Error(err))
+	}
+}
+
+// DEBUG 调试日志,详尽的程序日志(不建议在生成环境使用)
+// 调试示例:
+//     logger.Debug("Database", zap.String("sql", sql))
+func Debug(moduleName string, fields ...zap.Field) {
+	Logger.Debug(moduleName, fields...)
+}
+
+// INFO 通知类日志，一般是正常的日志
+func Info(moduleName string, fields ...zap.Field) {
+	Logger.Info(moduleName, fields...)
+}
+
+// Warn类日志
+func Warn(moduleName string, fields ...zap.Field) {
+	Logger.Warn(moduleName, fields...)
+}
+
+// Error类日志
+func Error(moduleName string, fields ...zap.Field) {
+	Logger.Error(moduleName, fields...)
+}
+
+// 记录一条字符串类型的日志
+//         logger.DebugString("SMS","短信内容",string(result.RowResponse))
+func DebugString(moduleName string, name, msg string) {
+	Logger.Debug(moduleName, zap.String(name, msg))
+}
+
+func InfoString(moduleName string, name, msg string) {
+	Logger.Info(moduleName, zap.String(name, msg))
+}
+
+func WarnString(moduleName string, name, msg string) {
+	Logger.Warn(moduleName, zap.String(name, msg))
+}
+
+func ErrorString(moduleName string, name, msg string) {
+	Logger.Error(moduleName, zap.String(name, msg))
+}
+
+// 记录一条 JSON 格式的日志
+//         logger.DebugString("SMS","短信内容",string(result.RowResponse))
+func DebugJson(moduleName, name string, value interface{}) {
+	Logger.Debug(moduleName, zap.String(name, jsonString(value)))
+}
+
+func InfoJson(moduleName, name string, value interface{}) {
+	Logger.Info(moduleName, zap.String(name, jsonString(value)))
+}
+
+func WarnJson(moduleName, name string, value interface{}) {
+	Logger.Warn(moduleName, zap.String(name, jsonString(value)))
+}
+
+func ErrorJson(moduleName, name string, value interface{}) {
+	Logger.Error(moduleName, zap.String(name, jsonString(value)))
+}
+
+// 格式化JSON字符串
+func jsonString(value interface{}) string {
+	b, err := json.Marshal(value)
+	if err != nil {
+		Logger.Error("Logger", zap.String("JSON Marshal error", err.Error()))
+	}
+	return string(b)
 }
