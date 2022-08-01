@@ -22,6 +22,9 @@ func main() {
 	flag.Parse()
 	config.InitConfig(env)
 
+	// 初始化日志配置
+	bootstrap.SetupLogger()
+
 	// 初始化一个gin Engine实例
 	r := gin.New()
 
