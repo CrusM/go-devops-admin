@@ -7,12 +7,12 @@ import (
 	"go-devops-admin/app/models/user"
 	"go-devops-admin/pkg/config"
 	"go-devops-admin/pkg/database"
+	"go-devops-admin/pkg/logger"
 	"time"
 
 	"gorm.io/driver/mysql"
 	// "gorm.io/driver/sqlite"
 	"gorm.io/gorm"
-	"gorm.io/gorm/logger"
 )
 
 // 初始化数据库和ORM
@@ -42,7 +42,7 @@ func SetupDB() {
 	}
 
 	//  数据库连接， 并设置GORM的日志模式
-	database.Connect(dbConfig, logger.Default.LogMode(logger.Info))
+	database.Connect(dbConfig, logger.NewGormLogger())
 
 	// 设置最大空闲连接数
 	database.SQL_DB.SetMaxIdleConns(config.GetInt("database.mysql.max_idle_connections"))
