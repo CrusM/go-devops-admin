@@ -1,0 +1,3 @@
+*
+!.gitignore
+# 当前目录下 除了.gitignore都被git忽略

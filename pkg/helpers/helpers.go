@@ -1,7 +1,9 @@
 package helpers
 
 import (
+	"fmt"
 	"reflect"
+	"time"
 )
 
 func Empty(val interface{}) bool {
@@ -26,4 +28,10 @@ func Empty(val interface{}) bool {
 		return v.IsNil()
 	}
 	return reflect.DeepEqual(val, reflect.Zero(v.Type()).Interface())
+}
+
+// 将 time.Duration 类型 (nano seconds为单位)
+// 输出为小数点后3位的ms (microsecond 毫秒)
+func MicrosecondsStr(e time.Duration) string {
+	return fmt.Sprintf("%.3fms", float64(e.Nanoseconds()/1e6))
 }

@@ -1,6 +1,7 @@
 package bootstrap
 
 import (
+	"go-devops-admin/app/http/middleware"
 	"go-devops-admin/routes"
 	"net/http"
 	"strings"
@@ -22,7 +23,8 @@ func SetupRoute(r *gin.Engine) {
 
 func registerGlobalMiddleWare(r *gin.Engine) {
 	r.Use(
-		gin.Logger(),
+		middleware.Logger(),
+		// gin.Logger(),
 		gin.Recovery(),
 	)
 }
