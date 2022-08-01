@@ -31,7 +31,7 @@ func InitLogger(filename string, maxSize, maxBackup, maxAge int, compress bool, 
 	core := zapcore.NewCore(getEncoder(), writeSyncer, logLevel)
 
 	// 初始化Logger
-	Logger := zap.New(core,
+	Logger = zap.New(core,
 		zap.AddCaller(),                   // 调用文件和行号, 内部使用 runtime.Caller
 		zap.AddCallerSkip(1),              // 封装了一层, 调用文件去除一层(runtime.Caller(1))
 		zap.AddStacktrace(zap.ErrorLevel), // Error 时才会显示 stacktrace
