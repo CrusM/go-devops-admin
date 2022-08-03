@@ -110,6 +110,10 @@ func GetInt(path string, defaultValue ...interface{}) int {
 	return cast.ToInt(internalGet(path, defaultValue...))
 }
 
+func GetInt64(path string, defaultValue ...interface{}) int64 {
+	return cast.ToInt64(internalGet(path, defaultValue...))
+}
+
 // 获取Float64类型配置信息
 func GetFloat64(path string, defaultValue ...interface{}) float64 {
 	return cast.ToFloat64(internalGet(path, defaultValue...))
