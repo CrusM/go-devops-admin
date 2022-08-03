@@ -2,8 +2,8 @@ package middleware
 
 import (
 	"go-devops-admin/pkg/logger"
+	"go-devops-admin/pkg/response"
 	"net"
-	"net/http"
 	"net/http/httputil"
 	"os"
 	"strings"
@@ -53,9 +53,7 @@ func Recovery() gin.HandlerFunc {
 				)
 
 				// 返回500状态码
-				ctx.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
-					"message": "服务器内部错误，请稍后重试",
-				})
+				response.Abort500(ctx)
 			}
 		}()
 		ctx.Next()
