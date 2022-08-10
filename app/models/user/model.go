@@ -3,6 +3,7 @@ package user
 import (
 	"go-devops-admin/app/models"
 	"go-devops-admin/pkg/database"
+	"go-devops-admin/pkg/hash"
 )
 
 // 用户模型
@@ -20,4 +21,9 @@ type User struct {
 
 func (userModel *User) Create() {
 	database.DB.Create(&userModel)
+}
+
+// 密码是否正确
+func (userModel *User) ComparePassword(_password string) bool {
+	return hash.BcryptCheck(_password, userModel.Password)
 }
