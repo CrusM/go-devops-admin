@@ -45,3 +45,21 @@ func (vc *VerifyCodeController) SendUsingPhone(c *gin.Context) {
 		response.SUCCESS(c)
 	}
 }
+
+// 发送 Email 验证码
+func (vc *VerifyCodeController) SendUsingEmail(c *gin.Context) {
+	// 验证表单
+	request := requests.SignUpEmailExistRequest{}
+
+	if ok := requests.Validate(c, &request, requests.ValidateSignUpEmailExist); !ok {
+		return
+	}
+
+	err := captcha.NewVerifyCode().SendEmail(request.Email)
+	if err != nil {
+		response.Abort500(c, "发送 Email 邮件失败~")
+	} else {
+		response.SUCCESS(c)
+	}
+
+}
