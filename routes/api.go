@@ -28,6 +28,7 @@ func RegisterAPIRouters(r *gin.Engine) {
 			// 验证码接口
 			vcc := new(auth.VerifyCodeController)
 			authGroup.POST("/verify-codes/captcha", vcc.ShowCaptcha)
+			authGroup.POST("/verify-codes/phone", vcc.SendUsingPhone)
 		}
 	}
 }

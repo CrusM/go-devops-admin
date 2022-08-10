@@ -17,7 +17,7 @@ func JSON(c *gin.Context, data interface{}) {
 
 // 响应 200 和 预设操作成功的 JSON 消息
 // 主要应用于某个 没有具体返回数据 的变更操作. 如修改密码，修改手机号
-func SUCCESS(c *gin.Context, data interface{}) {
+func SUCCESS(c *gin.Context) {
 	JSON(c, gin.H{
 		"success": true,
 		"message": "操作成功",
