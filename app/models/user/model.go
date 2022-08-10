@@ -2,6 +2,7 @@ package user
 
 import (
 	"go-devops-admin/app/models"
+	"go-devops-admin/pkg/database"
 )
 
 // 用户模型
@@ -15,4 +16,8 @@ type User struct {
 	Password string `json:"-"`
 
 	models.CommonTimestampField
+}
+
+func (userModel *User) Create() {
+	database.DB.Create(&userModel)
 }

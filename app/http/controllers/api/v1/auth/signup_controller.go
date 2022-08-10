@@ -44,3 +44,35 @@ func (sc *SignUpController) IsEmailExist(c *gin.Context) {
 		"exist": user.IsEmailExist(request.Email),
 	})
 }
+
+// 手机号注册请求数据结构体
+// {
+//     "name":"summer",
+//     "password":"secret",
+//     "password_confirm":"secret",
+//     "verify_code": "{{verify_code_phone}}",
+//     "phone": "00000000000"
+// }
+func (sc *SignUpController) SignUpUsingPhone(c *gin.Context) {
+	// 验证表单
+	request := requests.SignUpUsingPhoneRequest{}
+	if ok := requests.Validate(c, &request, requests.SignUpUsingPhone); !ok {
+		return
+	}
+
+	_user := user.User{
+		Name:     request.Name,
+		Phone:    request.Phone,
+		Password: request.Password,
+	}
+
+	_user.Create()
+
+	if _user.ID > 0 {
+		response.CreatedJSON(c, gin.H{
+			"data": _user,
+		})
+	} else {
+		response.Abort500(c, "创建用户失败, 请稍后再试~")
+	}
+}
