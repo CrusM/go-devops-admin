@@ -23,7 +23,7 @@ func (sc *SignUpController) IsPhoneExist(c *gin.Context) {
 	request := requests.SignUpPhoneExistRequest{}
 
 	// 校验请求数据
-	if ok := requests.Validate(c, request, requests.ValidateSignUpPhoneExist); !ok {
+	if ok := requests.Validate(c, &request, requests.ValidateSignUpPhoneExist); !ok {
 		return
 	}
 	// 检查数据库并返回响应
