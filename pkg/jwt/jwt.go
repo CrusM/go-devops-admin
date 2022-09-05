@@ -138,7 +138,7 @@ func (jwt *JWT) IssueToken(userID string, username string) string {
 
 func (jwt *JWT) createToken(claims JWTCustomClaims) (string, error) {
 	// 使用 HS256 算法生成 token
-	token := jwtPkg.NewWithClaims(jwtPkg.SigningMethodES256, claims)
+	token := jwtPkg.NewWithClaims(jwtPkg.SigningMethodHS256, claims)
 	return token.SignedString(jwt.SignKey)
 }
 
