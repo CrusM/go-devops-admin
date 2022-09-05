@@ -30,3 +30,9 @@ func GetByMulti(loginId string) (userModel User) {
 		Or("name = ? ", loginId).First(&userModel)
 	return
 }
+
+// 通过 ID 获取用户
+func Get(id string) (userModel User) {
+	database.DB.Where("id = ?", id).First(&userModel)
+	return
+}

@@ -3,6 +3,9 @@ package auth
 import (
 	"errors"
 	"go-devops-admin/app/models/user"
+	"go-devops-admin/pkg/logger"
+
+	"github.com/gin-gonic/gin"
 )
 
 // 尝试登录
@@ -26,4 +29,19 @@ func LoginByPhone(phone string) (user.User, error) {
 		return user.User{}, errors.New("账号不存在")
 	}
 	return userModel, nil
+}
+
+// 从 gin.Context 中获取当前登录用户
+func CurrentUser(c *gin.Context) user.User {
+	userModel, ok := c.MustGet("current_user").(user.User)
+	if !ok {
+		logger.LogIf(errors.New("无法获取用户"))
+		return user.User{}
+	}
+	return userModel
+}
+
+// 从 gin.Context 中获取当前登录用户 ID
+func CurrentUID(c *gin.Context) string {
+	return c.GetString("current_user_id")
 }
