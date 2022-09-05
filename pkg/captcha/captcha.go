@@ -1,6 +1,7 @@
 package captcha
 
 import (
+	"fmt"
 	"go-devops-admin/pkg/app"
 	"go-devops-admin/pkg/config"
 	"go-devops-admin/pkg/redis"
@@ -56,6 +57,8 @@ func (c *Captcha) GenerateCaptcha() (id string, b64s string, err error) {
 // 验证验证码是否正确
 func (c *Captcha) VerifyCaptcha(id string, answer string) (match bool) {
 	// 方便本地和 API 自动测试
+	fmt.Printf("id %s\n", id)
+	fmt.Printf("test_code: %s \n", config.GetString("captcha.testing_key"))
 	if !app.IsProduction() && id == config.GetString("captcha.testing_key") {
 		return true
 	}

@@ -19,7 +19,7 @@ func ValidatePasswordConfirm(password, password_confirm string, errs map[string]
 
 // 验证码校验
 func ValidateVerifyCode(key, answer string, errs map[string][]string) map[string][]string {
-	if ok := captcha.NewCaptcha().VerifyCaptcha(key, key); !ok {
+	if ok := captcha.NewVerifyCode().CheckAnswer(key, answer); !ok {
 		errs["verify_code"] = append(errs["verify_code"], "验证码错误")
 	}
 	return errs
