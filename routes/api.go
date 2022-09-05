@@ -36,6 +36,7 @@ func RegisterAPIRouters(r *gin.Engine) {
 			// 登录接口
 			lc := new(auth.LoginController)
 			authGroup.POST("/login/using-phone", lc.LoginByPhone)
+			authGroup.POST("/login/using-password", lc.LoginByPassword)
 		}
 	}
 }

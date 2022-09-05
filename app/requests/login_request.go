@@ -36,3 +36,42 @@ func LoginByPhone(data interface{}, c *gin.Context) map[string][]string {
 	errs = validators.ValidateVerifyCode(_data.Phone, _data.Verify_code, errs)
 	return errs
 }
+
+// 用户密码登录
+type LoginByPasswordRequest struct {
+	CaptchaID     string `json:"captcha_id,omitempty" valid:"captcha_id"`
+	CaptchaAnswer string `json:"captcha_answer,omitempty" valid:"captcha_answer"`
+	LoginID       string `json:"login_id,omitempty" valid:"login_id"`
+	Password      string `json:"password,omitempty" valid:"password"`
+}
+
+func LoginByPassword(data interface{}, c *gin.Context) map[string][]string {
+	rules := govalidator.MapData{
+		"captcha_id":     []string{"required"},
+		"captcha_answer": []string{"required", "digits:6"},
+		"login_id":       []string{"required", "min:3"},
+		"password":       []string{"required", "min:6"},
+	}
+
+	messages := govalidator.MapData{
+		"captcha_id": []string{
+			"required: 图片验证码的 ID 为必填项",
+		},
+		"captcha_answer": []string{
+			"required: 图片验证码答案为必填项",
+			"digits:图片验证码答案长度必须为 6 位数字",
+		},
+		"login_id": []string{
+			"required: 登录 ID 为必填项, 支持手机号、邮箱 和 用户名",
+			"min:登录 ID 长度需大于 3",
+		},
+		"password": []string{
+			"required: 密码为必填项",
+			"min:密码长度需大于 6",
+		},
+	}
+
+	errs := validate(data, rules, messages)
+	_data := data.(*LoginByPasswordRequest)
+	return validators.ValidateCaptcha(_data.CaptchaID, _data.CaptchaAnswer, errs)
+}
