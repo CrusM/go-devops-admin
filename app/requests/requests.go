@@ -35,7 +35,7 @@ func Validate(c *gin.Context, obj interface{}, handler ValidateFunc) bool {
 	return true
 }
 
-func validate(data interface{}, rules govalidator.MapData, messages govalidator.MapData) map[string][]string {
+func ValidateData(data interface{}, rules govalidator.MapData, messages govalidator.MapData) map[string][]string {
 	opts := govalidator.Options{
 		Data:          data,
 		Rules:         rules,

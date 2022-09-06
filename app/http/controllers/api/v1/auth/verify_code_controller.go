@@ -3,6 +3,7 @@ package auth
 import (
 	v1 "go-devops-admin/app/http/controllers/api/v1"
 	"go-devops-admin/app/requests"
+	authRequest "go-devops-admin/app/requests/auth"
 	"go-devops-admin/pkg/captcha"
 	"go-devops-admin/pkg/logger"
 	"go-devops-admin/pkg/response"
@@ -33,8 +34,8 @@ func (vc *VerifyCodeController) ShowCaptcha(c *gin.Context) {
 // 发送手机验证码
 func (vc *VerifyCodeController) SendUsingPhone(c *gin.Context) {
 	// 验证表单
-	request := requests.VerifyCodePhoneRequest{}
-	if ok := requests.Validate(c, &request, requests.VerifyCodePhone); !ok {
+	request := authRequest.VerifyCodePhoneRequest{}
+	if ok := requests.Validate(c, &request, authRequest.VerifyCodePhone); !ok {
 		return
 	}
 
@@ -49,9 +50,9 @@ func (vc *VerifyCodeController) SendUsingPhone(c *gin.Context) {
 // 发送 Email 验证码
 func (vc *VerifyCodeController) SendUsingEmail(c *gin.Context) {
 	// 验证表单
-	request := requests.SignUpEmailExistRequest{}
+	request := authRequest.SignUpEmailExistRequest{}
 
-	if ok := requests.Validate(c, &request, requests.ValidateSignUpEmailExist); !ok {
+	if ok := requests.Validate(c, &request, authRequest.ValidateSignUpEmailExist); !ok {
 		return
 	}
 

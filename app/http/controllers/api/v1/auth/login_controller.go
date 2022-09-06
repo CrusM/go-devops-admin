@@ -3,6 +3,7 @@ package auth
 import (
 	v1 "go-devops-admin/app/http/controllers/api/v1"
 	"go-devops-admin/app/requests"
+	authRequest "go-devops-admin/app/requests/auth"
 	"go-devops-admin/pkg/auth"
 	"go-devops-admin/pkg/jwt"
 	"go-devops-admin/pkg/response"
@@ -16,8 +17,8 @@ type LoginController struct {
 
 func (lc *LoginController) LoginByPhone(c *gin.Context) {
 
-	request := requests.LoginByPhoneRequest{}
-	if ok := requests.Validate(c, &request, requests.LoginByPhone); !ok {
+	request := authRequest.LoginByPhoneRequest{}
+	if ok := requests.Validate(c, &request, authRequest.LoginByPhone); !ok {
 		return
 	}
 
@@ -35,9 +36,9 @@ func (lc *LoginController) LoginByPhone(c *gin.Context) {
 }
 
 func (lc *LoginController) LoginByPassword(c *gin.Context) {
-	request := requests.LoginByPasswordRequest{}
+	request := authRequest.LoginByPasswordRequest{}
 
-	if ok := requests.Validate(c, &request, requests.LoginByPassword); !ok {
+	if ok := requests.Validate(c, &request, authRequest.LoginByPassword); !ok {
 		return
 	}
 

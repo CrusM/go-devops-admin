@@ -1,6 +1,7 @@
 package requests
 
 import (
+	"go-devops-admin/app/requests"
 	"go-devops-admin/app/requests/validators"
 
 	"github.com/gin-gonic/gin"
@@ -38,7 +39,7 @@ func VerifyCodePhone(data interface{}, c *gin.Context) map[string][]string {
 		},
 	}
 
-	errs := validate(data, rules, messages)
+	errs := requests.ValidateData(data, rules, messages)
 
 	// 图片验证码
 	_data := data.(*VerifyCodePhoneRequest)
@@ -73,7 +74,7 @@ func VerifyCodeEmail(data interface{}, c *gin.Context) map[string][]string {
 			"digits:图片验证码长度为 6 位数字",
 		},
 	}
-	errs := validate(data, rules, messages)
+	errs := requests.ValidateData(data, rules, messages)
 
 	// 图片验证码
 	_data := data.(*VerifyCodeEmailRequest)

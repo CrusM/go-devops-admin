@@ -3,6 +3,7 @@ package requests
 // 验证请求参数
 
 import (
+	"go-devops-admin/app/requests"
 	"go-devops-admin/app/requests/validators"
 
 	"github.com/gin-gonic/gin"
@@ -27,7 +28,7 @@ func ValidateSignUpPhoneExist(data interface{}, c *gin.Context) map[string][]str
 		},
 	}
 
-	return validate(data, rules, messages)
+	return requests.ValidateData(data, rules, messages)
 }
 
 type SignUpEmailExistRequest struct {
@@ -49,7 +50,7 @@ func ValidateSignUpEmailExist(data interface{}, c *gin.Context) map[string][]str
 		},
 	}
 
-	return validate(data, rules, messages)
+	return requests.ValidateData(data, rules, messages)
 }
 
 // 通过手机注册的请求信息
@@ -92,7 +93,7 @@ func SignUpUsingPhone(data interface{}, c *gin.Context) map[string][]string {
 		},
 	}
 
-	errs := validate(data, rules, messages)
+	errs := requests.ValidateData(data, rules, messages)
 	_data := data.(*SignUpUsingPhoneRequest)
 	errs = validators.ValidatePasswordConfirm(_data.Password, _data.PasswordConfirm, errs)
 	errs = validators.ValidateVerifyCode(_data.Phone, _data.VerifyCode, errs)
@@ -139,7 +140,7 @@ func SignUpUsingEmail(data interface{}, c *gin.Context) map[string][]string {
 		},
 	}
 
-	errs := validate(data, rules, messages)
+	errs := requests.ValidateData(data, rules, messages)
 	_data := data.(*SignUpUsingEmailRequest)
 	errs = validators.ValidatePasswordConfirm(_data.Password, _data.PasswordConfirm, errs)
 	errs = validators.ValidateVerifyCode(_data.Email, _data.VerifyCode, errs)
