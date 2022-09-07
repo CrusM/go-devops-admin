@@ -1,4 +1,4 @@
-package requests
+package auth
 
 import (
 	"go-devops-admin/app/requests"
