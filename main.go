@@ -1,13 +1,15 @@
 package main
 
 import (
-	"flag"
 	"fmt"
+	"go-devops-admin/app/cmd"
 	"go-devops-admin/bootstrap"
 	btsConfig "go-devops-admin/config"
 	"go-devops-admin/pkg/config"
+	"go-devops-admin/pkg/console"
+	"os"
 
-	"github.com/gin-gonic/gin"
+	"github.com/spf13/cobra"
 )
 
 func init() {
@@ -16,37 +18,36 @@ func init() {
 
 func main() {
 
-	// 配置初始化， 依赖命令行--env参数
-	var env string
-	flag.StringVar(&env, "env", "", "加载.env文件，如 --env=testing 加载的是 .env.testing 文件")
-	flag.Parse()
-	config.InitConfig(env)
+	var rootCmd = &cobra.Command{
+		Use:   "GoDev",
+		Short: "A simple from project",
+		Long:  `Default will run "server" command, you can use "-h" flag to see all command`,
 
-	// 初始化日志配置
-	bootstrap.SetupLogger()
+		// rootCmd 所有子命令都会执行以下代码
+		PersistentPreRun: func(command *cobra.Command, args []string) {
+			// 配置初始化, 依赖命令行 --env 参数
+			config.InitConfig(cmd.Env)
 
-	// 设置 gin 的运行模式，支持 debug, release, test
-	// release 会屏蔽调试信息，官方建议生产环境中使用
-	// 非 release 模式 gin 终端打印太多信息，干扰到我们程序中的 Log
-	// 故此设置为 release，有特殊情况手动改为 debug 即可
-	gin.SetMode(gin.ReleaseMode)
+			// 初始化日志配置
+			bootstrap.SetupLogger()
+			// 初始化 DB
+			bootstrap.SetupDB()
 
-	// 初始化一个gin Engine实例
-	r := gin.New()
+			// 初始化 Redis
+			bootstrap.SetupRedis()
+		},
+	}
 
-	// 初始化 DB
-	bootstrap.SetupDB()
+	// 注册子命令
+	rootCmd.AddCommand(
+		cmd.CmdServer,
+	)
 
-	// 初始化 Redis
-	bootstrap.SetupRedis()
+	// 配置默认运行 Web 服务
+	cmd.RegisterDefaultCommand(rootCmd, cmd.CmdServer)
 
-	// 初始化绑定路由
-	bootstrap.SetupRoute(r)
-
-	// 运行服务
-	err := r.Run(":8080")
-	if err != nil {
-		// 错误处理，端口占用或者其他错误
-		fmt.Println(err.Error())
+	// 执行主命令
+	if err := rootCmd.Execute(); err != nil {
+		console.Exit(fmt.Sprintf("Failed to run app with %v: %s", os.Args, err.Error()))
 	}
 }
