@@ -26,7 +26,7 @@ func RegisterAPIRouters(r *gin.Engine) {
 		authGroup.Use(middleware.LimitIP("400-H"))
 		{
 			suc := new(auth.SignUpController)
-			// 判断手机是否注册
+			// 注册接口
 			authGroup.POST("/signUp/phone/exist", middleware.GuestJWT(), middleware.LimitIP("60-H"), suc.IsPhoneExist)
 			authGroup.POST("/signUp/email/exist", middleware.GuestJWT(), middleware.LimitIP("60-H"), suc.IsEmailExist)
 			authGroup.POST("/signUp/using-phone", middleware.GuestJWT(), suc.SignUpUsingPhone)
