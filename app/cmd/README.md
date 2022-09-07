@@ -103,7 +103,6 @@ type Command struct {
 }
 ```
 
-
 ## 命令钩子
 
 ```go
@@ -133,4 +132,20 @@ PostRunE func(cmd *Command, args []string) error
 PersistentPostRun func(cmd *Command, args []string)
 // 会被子命令继承的后置运行，带 error
 PersistentPostRunE func(cmd *Command, args []string) error   
+```
+
+## 参数校验器
+
+```go
+Cobra 提供了一组参数校验器，用以快速校验命令的参数是否符合预期，否则报错：
+
+NoArgs - 如果存在任何位置参数，该命令将报错
+ArbitraryArgs - 该命令会接受任何位置参数
+OnlyValidArgs - 如果有任何位置参数不在命令的 ValidArgs 字段中，该命令将报错
+MinimumNArgs(int) - 至少要有 N 个位置参数，否则报错
+MaximumNArgs(int) - 如果位置参数超过 N 个将报错
+ExactArgs(int) - 必须有 N 个位置参数，否则报错
+ExactValidArgs (int) 必须有 N 个位置参数，且都在命令的 ValidArgs 字段中，否则报错
+RangeArgs(min, max) - 如果位置参数的个数不在区间 min 和 max 之中，报错
+MatchAll(pargs ...PositionalArgs) - 支持使用以上的多个验证器
 ```
