@@ -21,8 +21,7 @@ type Model struct {
 	PackageName        string
 }
 
-// stubsFS 方便后面打包 .stub 为后缀名的文件
-
+//go:embed stubs
 var stubsFS embed.FS
 
 var CmdMake = &cobra.Command{

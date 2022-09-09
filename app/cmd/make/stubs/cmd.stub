@@ -4,14 +4,14 @@ import (
     "errors"
     "go-devops-admin/pkg/console"
 
-    "github.com/spt13/cobra"
+    "github.com/spf13/cobra"
 )
 
 var Cmd{{StructName}} = &cobra.Command{
-    Use: {{StructName}},
+    Use: "{{StructName}}",
     Short: "HERE PUTS THE COMMAND DESCRIPTION",
     Run: run{{StructName}},
-    Args: cobra.ExactArgs(1)
+    Args: cobra.ExactArgs(1),
 }
 
 func run{{StructName}}(cmd *cobra.Command, args []string) {
