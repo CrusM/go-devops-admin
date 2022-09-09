@@ -28,6 +28,6 @@ func Camel(word string) string {
 }
 
 // 转为全部小写
-func LowCamel(s string) string {
+func LowerCamel(s string) string {
 	return strcase.ToLowerCamel(s)
 }

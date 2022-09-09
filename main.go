@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"go-devops-admin/app/cmd"
+	"go-devops-admin/app/cmd/make"
 	"go-devops-admin/bootstrap"
 	btsConfig "go-devops-admin/config"
 	"go-devops-admin/pkg/config"
@@ -43,6 +44,7 @@ func main() {
 		cmd.CmdServer,
 		cmd.CmdKey,
 		cmd.PlayCmd,
+		make.CmdMake,
 	)
 
 	// 配置默认运行 Web 服务
