@@ -1,7 +1,7 @@
 package auth
 
 import (
-	v1 "go-devops-admin/app/http/controllers/api/v1"
+	v1 "go-devops-admin/app/http/controllers/api"
 	"go-devops-admin/app/requests"
 	authRequest "go-devops-admin/app/requests/auth"
 	"go-devops-admin/pkg/auth"

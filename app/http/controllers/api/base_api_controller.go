@@ -1,4 +1,4 @@
-package v1
+package api
 
 // 处理业务逻辑
 

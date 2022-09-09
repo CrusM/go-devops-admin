@@ -1,0 +1,105 @@
+package {{TableName}}
+
+import (
+    "go-devops-admin/app/http/controllers/api"
+    "go-devops-admin/app/requests"
+    "go-devops-admin/app/models/{{PackageName}}"
+    "go-devops-admin/app/policies"
+    {{PackageName}}Request "go-devops-admin/app/requests/{{PackageName}}"
+    "go-devops-admin/pkg/response"
+
+    "github.com/gin-gonic/gin"
+)
+
+type {{StructNamePlural}}Controller struct {
+    api.BaseAPIController
+}
+
+// 列表查询
+func (ctrl *{{StructNamePlural}}Controller) Index(c *gin.Context) {
+    {{VariableNamePlural}} := {{PackageName}}.All()
+    response.Data(c, {{VariableNamePlural}})
+}
+
+// 单挑查询
+func (ctrl *{{StructNamePlural}}Controller) Show(c *gin.Context) {
+    {{VariableName}}Model := {{PackageName}}.Get(c.Param("id"))
+    if {{VariableName}}Model.ID == 0 {
+        response.Abort404(c)
+        return
+    }
+    response.Data(c, {{VariableName}}Model)
+}
+
+// 新增接口
+func (ctrl *{{StructNamePlural}}Controller) Create(c *gin.Context) {
+    request := {{PackageName}}Request.{{StructName}}Request{}
+    if ok := requests.Validate(c, &request, {{PackageName}}Request.{{StructName}}Save); !ok {
+		return
+	}
+
+    {{VariableName}}Model := {{PackageName}}.{{StructName}}{
+        // 填充各个字段的内容
+        // FieldName: request.FieldName,
+    }
+    {{VariableName}}Model.Create()
+    if {{VariableName}}Model.ID > 0 {
+        response.Data(c, {{VariableName}}Model)
+    } else {
+        response.Abort500(c, "创建失败, 稍后再试")
+    }
+}
+
+// 修改接口
+func (ctrl *{{StructNamePlural}}Controller) Update(c *gin.Context) {
+    {{VariableName}}Model := {{PackageName}}.Get(c.Param("id"))
+    if {{VariableName}}Model.ID == 0 {
+        response.Abort404(c)
+        return
+    }
+
+    if ok := policies.CanModify{{StructName}}(c, {{VariableName}}Model); !ok {
+        response.Abort403(c)
+        return
+    }
+    
+    request := {{PackageName}}Request.{{StructName}}Request{}
+    if bindOk := requests.Validate(c, &request, {{PackageName}}Request.{{StructName}}Save); !bindOk {
+		return
+	}
+
+    // 需要求改的字段内容
+    // {{VariableName}}Model.FieldName = request.FieldName
+
+    rowsAffected := {{VariableName}}Model.Save()
+
+    if rowsAffected > 0 {
+        response.Data(c, {{VariableName}}Model)
+    } else {
+        response.Abort500(c, "更新失败, 稍后再试")
+    }
+}
+
+// 删除接口
+func (ctrl *{{StructNamePlural}}Controller) Delete(c *gin.Context) {
+    {{VariableName}}Model := {{PackageName}}.Get(c.Param("id"))
+    if {{VariableName}}Model.ID == 0 {
+        response.Abort404(c)
+        return
+    }
+
+    if ok := policies.CanModify{{StructName}}(c, {{VariableName}}Model); !ok {
+        response.Abort403(c)
+        return
+    }
+
+    rowsAffected := {{VariableName}}Model.Save()
+
+    if rowsAffected > 0 {
+        response.SUCCESS(c)
+        return
+    }
+    
+    response.Abort500(c, "删除失败, 稍后再试")
+
+}
