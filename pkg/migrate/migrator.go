@@ -128,3 +128,41 @@ func (m *Migrator) runUpMigration(file MigrationFile, batch int) {
 	}).Error
 	console.ExitIf(err)
 }
+
+// 回滚上一个操作
+func (m *Migrator) RollBack() {
+	// 获取最后一批次的迁移数据
+	lastMigration := Migration{}
+	m.DB.Order("id DESC").First(&lastMigration)
+
+	migrations := []Migration{}
+	m.DB.Where("batch = ?", lastMigration.Batch).Order("id DESC").Find(&migrations)
+
+	// 回滚最后一批次的迁移
+	if !m.RollBackMigrations(migrations) {
+
+	}
+}
+
+// 回退迁移, 按照顺序执行 down 方法
+func (m *Migrator) RollBackMigrations(migrations []Migration) bool {
+	// 标记是否执行
+	ran := false
+
+	for _, _migration := range migrations {
+		console.Warning("RollBack" + _migration.Migration)
+
+		// 执行迁移文件
+		file := getMigrationFile(_migration.Migration)
+		if file.Down != nil {
+			file.Down(database.DB.Migrator(), database.SQL_DB)
+		}
+
+		ran = true
+		// 回退成功，删除对应的记录
+		m.DB.Delete(&_migration)
+
+		console.Success("Finish " + file.FileName)
+	}
+	return ran
+}
