@@ -140,7 +140,7 @@ func (m *Migrator) RollBack() {
 
 	// 回滚最后一批次的迁移
 	if !m.RollBackMigrations(migrations) {
-
+		console.Success("[migrations] table is empty, nothing to rollback.")
 	}
 }
 
@@ -165,4 +165,23 @@ func (m *Migrator) RollBackMigrations(migrations []Migration) bool {
 		console.Success("Finish " + file.FileName)
 	}
 	return ran
+}
+
+// 回滚所有迁移
+func (m *Migrator) Reset() {
+	migrations := []Migration{}
+
+	m.DB.Order("id DESC").Find(&migrations)
+
+	// 回滚所有迁移
+	if !m.RollBackMigrations(migrations) {
+		console.Success("[migrations] table is empty, nothing to rollback.")
+	}
+}
+
+// 回滚所有迁移, 并运行所有迁移
+func (m *Migrator) Refresh() {
+	m.Reset()
+
+	m.Up()
 }
