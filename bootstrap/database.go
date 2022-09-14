@@ -52,7 +52,7 @@ func SetupDB() {
 	database.SQL_DB.SetConnMaxLifetime(time.Duration(config.GetInt("database.mysql.max_life_seconds")) * time.Second)
 
 	// 自动迁移
-	AutoMigrate()
+	// AutoMigrate()
 }
 
 func AutoMigrate() {
