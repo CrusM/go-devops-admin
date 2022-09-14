@@ -2,7 +2,9 @@ package database
 
 import (
 	"database/sql"
+	"errors"
 	"fmt"
+	"go-devops-admin/pkg/config"
 
 	"gorm.io/gorm"
 	GormLogger "gorm.io/gorm/logger"
@@ -30,4 +32,72 @@ func Connect(config gorm.Dialector, _logger GormLogger.Interface) {
 	if err != nil {
 		fmt.Println(err.Error())
 	}
+}
+
+func CurrentDatabase() (dbName string) {
+	return DB.Migrator().CurrentDatabase()
+}
+
+// 删除所有表
+func DeleteAllTable() error {
+	var err error
+
+	switch config.Get("database.connection") {
+	case "mysql":
+		err = deleteMysqlTables()
+	case "sqlite":
+		err = deleteAllSqliteTables()
+	default:
+		panic(errors.New("database connection not supported! supported mysql or sqlite"))
+	}
+
+	return err
+}
+
+func deleteAllSqliteTables() error {
+	tables := []string{}
+
+	// 读取数据库中所有的表
+	err := DB.Select(&tables, "SELECT name FROM sqlite_master WHERE table='table'").Error
+	if err != nil {
+		return err
+	}
+
+	// 删除所有表
+	for _, table := range tables {
+		err := DB.Migrator().DropTable(table)
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+func deleteMysqlTables() error {
+	dbName := CurrentDatabase()
+	tables := []string{}
+
+	err := DB.Table("information_schema.tables").
+		Where("table_schema = ?", dbName).
+		Pluck("table_name", &tables).Error
+
+	if err != nil {
+		return err
+	}
+
+	// 暂时关闭外键检测
+	DB.Exec("SET foreign_key_checks = 0;")
+
+	// 删除所有表
+	for _, table := range tables {
+		err := DB.Migrator().DropTable(table)
+		if err != nil {
+			return err
+		}
+	}
+
+	// 开启外键检测
+	DB.Exec("SET foreign_key_checks = 1;")
+	return nil
 }

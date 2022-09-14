@@ -185,3 +185,21 @@ func (m *Migrator) Refresh() {
 
 	m.Up()
 }
+
+// Drop 所有表并重新运行迁移
+func (m *Migrator) Fresh() {
+	// 获取数据库名称, 用以提示
+	dbName := database.CurrentDatabase()
+
+	// 删除所有表
+	err := database.DeleteAllTable()
+	console.ExitIf(err)
+	console.Success("clear up database " + dbName)
+
+	// 重新创建 migrates 表
+	m.createMigrationsTable()
+	console.Success("[migrations] table created")
+
+	// 重新调用 up 命令
+	m.Up()
+}
