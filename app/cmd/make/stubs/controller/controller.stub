@@ -1,4 +1,4 @@
-package {{TableName}}
+package {{PackageName}}
 
 import (
     "go-devops-admin/app/http/controllers/api"

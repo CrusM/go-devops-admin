@@ -22,7 +22,7 @@ func runWeb(cmd *cobra.Command, args []string) {
 	// 非 release 模式 gin 终端打印太多信息，干扰到我们程序中的 Log
 	// 故此设置为 release，有特殊情况手动改为 debug 即可
 	gin.SetMode(gin.ReleaseMode)
-
+	// gin.SetMode(gin.DebugMode)
 	// gin 实例
 	r := gin.New()
 

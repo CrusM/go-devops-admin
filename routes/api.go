@@ -2,6 +2,7 @@ package routes
 
 import (
 	"go-devops-admin/app/http/controllers/api/v1/auth"
+	"go-devops-admin/app/http/controllers/api/v1/user"
 	"go-devops-admin/app/http/middleware"
 	"net/http"
 
@@ -48,6 +49,11 @@ func RegisterAPIRouters(r *gin.Engine) {
 			pwd := new(auth.PasswordController)
 			authGroup.POST("reset-password/using-phone", middleware.GuestJWT(), pwd.ResetByPhone)
 			authGroup.POST("reset-password/using-email", middleware.GuestJWT(), pwd.ResetByEmail)
+
 		}
+		// user 接口
+		uc := new(user.UsersController)
+		// 获取当前用户
+		v1.GET("/user", middleware.AuthJWT(), uc.CurrentUser)
 	}
 }
