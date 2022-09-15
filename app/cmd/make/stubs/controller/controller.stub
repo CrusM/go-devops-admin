@@ -17,7 +17,7 @@ type {{StructNamePlural}}Controller struct {
 }
 
 // 列表查询
-func (ctrl *{{StructNamePlural}}Controller) Index(c *gin.Context) {
+func (ctrl *{{StructNamePlural}}Controller) List(c *gin.Context) {
     request := requests.PaginationRequest{}
 	if ok := requests.Validate(c, &request, requests.Pagination); !ok {
 		return

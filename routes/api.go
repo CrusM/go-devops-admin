@@ -2,6 +2,7 @@ package routes
 
 import (
 	"go-devops-admin/app/http/controllers/api/v1/auth"
+	"go-devops-admin/app/http/controllers/api/v1/category"
 	"go-devops-admin/app/http/controllers/api/v1/user"
 	"go-devops-admin/app/http/middleware"
 	"net/http"
@@ -57,7 +58,14 @@ func RegisterAPIRouters(r *gin.Engine) {
 		v1.GET("/user", uc.CurrentUser)
 		userGroup := v1.Group("/users")
 		{
-			userGroup.GET("", uc.Index)
+			userGroup.GET("", middleware.AuthJWT(), uc.List)
+		}
+
+		// category
+		cgc := new(category.CategoriesController)
+		cgcGroup := v1.Group("/categories")
+		{
+			cgcGroup.POST("", middleware.AuthJWT(), cgc.Create)
 		}
 	}
 }

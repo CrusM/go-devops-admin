@@ -24,7 +24,7 @@ func (ctrl *UsersController) CurrentUser(c *gin.Context) {
 }
 
 // 列表查询
-func (ctrl *UsersController) Index(c *gin.Context) {
+func (ctrl *UsersController) List(c *gin.Context) {
 	request := requests.PaginationRequest{}
 	if ok := requests.Validate(c, &request, requests.Pagination); !ok {
 		return
