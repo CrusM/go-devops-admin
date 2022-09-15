@@ -9,6 +9,7 @@ import (
     "go-devops-admin/pkg/response"
 
     "github.com/gin-gonic/gin"
+    "github.com/spf13/cast"
 )
 
 type {{StructNamePlural}}Controller struct {
@@ -17,8 +18,17 @@ type {{StructNamePlural}}Controller struct {
 
 // 列表查询
 func (ctrl *{{StructNamePlural}}Controller) Index(c *gin.Context) {
-    {{VariableNamePlural}} := {{PackageName}}.All()
-    response.Data(c, {{VariableNamePlural}})
+    request := requests.PaginationRequest{}
+	if ok := requests.Validate(c, &request, requests.Pagination); !ok {
+		return
+	}
+
+	data, paper := {{PackageName}}.Paginate(c, cast.ToInt(request.PageSize))
+	response.JSON(c, gin.H{
+		"data":  data,
+		"paper": paper,
+	})
+
 }
 
 // 单挑查询
