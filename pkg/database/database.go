@@ -101,3 +101,10 @@ func deleteMysqlTables() error {
 	DB.Exec("SET foreign_key_checks = 1;")
 	return nil
 }
+
+// 获取 model 的 tableName
+func TableName(obj interface{}) string {
+	stmt := &gorm.Statement{DB: DB}
+	stmt.Parse(obj)
+	return stmt.Statement.Table
+}

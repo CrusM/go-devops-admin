@@ -25,8 +25,11 @@ func (ctrl *UsersController) CurrentUser(c *gin.Context) {
 
 // 列表查询
 func (ctrl *UsersController) Index(c *gin.Context) {
-	users := user.All()
-	response.Data(c, users)
+	data, paper := user.Paginate(c, 10)
+	response.JSON(c, gin.H{
+		"data":  data,
+		"paper": paper,
+	})
 }
 
 // 单挑查询

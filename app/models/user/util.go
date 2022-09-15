@@ -1,6 +1,12 @@
 package user
 
-import "go-devops-admin/pkg/database"
+import (
+	"go-devops-admin/pkg/app"
+	"go-devops-admin/pkg/database"
+	"go-devops-admin/pkg/paginator"
+
+	"github.com/gin-gonic/gin"
+)
 
 // 判断邮箱是否被注册
 func IsEmailExist(email string) bool {
@@ -45,5 +51,17 @@ func Get(id string) (userModel User) {
 
 func All() (userModels []User) {
 	database.DB.Find(&userModels)
+	return
+}
+
+// 分页查询
+func Paginate(c *gin.Context, pageSize int) (users []User, paging paginator.Paging) {
+	paging = paginator.Paginate(
+		c,
+		database.DB.Model(User{}),
+		&users,
+		app.V1URL(database.TableName(&User{})),
+		pageSize,
+	)
 	return
 }

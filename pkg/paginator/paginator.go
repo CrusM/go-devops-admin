@@ -58,7 +58,7 @@ func Paginate(c *gin.Context, db *gorm.DB, data interface{}, baseURL string, pag
 							Order(p.Sort + " " + p.Order). //排序查询
 							Limit(p.PageSize).
 							Offset(p.Offset).
-							Find(&data).Error
+							Find(data).Error
 	if err != nil {
 		logger.LogIf(err)
 		return Paging{}
