@@ -18,7 +18,7 @@ type ValidateFunc func(interface{}, *gin.Context) map[string][]string
 // }
 func Validate(c *gin.Context, obj interface{}, handler ValidateFunc) bool {
 	// 解析请求，支持JSON数据,表单请求和URL query
-	if err := c.ShouldBind(&obj); err != nil {
+	if err := c.ShouldBind(obj); err != nil {
 		response.BadRequest(c, err)
 		return false
 	}
@@ -43,5 +43,6 @@ func ValidateData(data interface{}, rules govalidator.MapData, messages govalida
 		TagIdentifier: "valid",
 	}
 
-	return govalidator.New(opts).ValidateStruct()
+	result := govalidator.New(opts).ValidateStruct()
+	return result
 }

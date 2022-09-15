@@ -25,6 +25,11 @@ func (ctrl *UsersController) CurrentUser(c *gin.Context) {
 
 // 列表查询
 func (ctrl *UsersController) Index(c *gin.Context) {
+	request := requests.PaginationRequest{}
+	if ok := requests.Validate(c, &request, requests.Pagination); !ok {
+		return
+	}
+
 	data, paper := user.Paginate(c, 10)
 	response.JSON(c, gin.H{
 		"data":  data,
