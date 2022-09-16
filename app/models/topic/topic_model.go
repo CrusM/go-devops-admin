@@ -13,7 +13,7 @@ type Topic struct {
 	Title      string `json:"title,omitempty"`
 	Body       string `json:"body,omitempty"`
 	UserID     string `json:"user_id,omitempty"`
-	CategoryID string `json:"category_id,omitempty"`
+	CategoryID string    `json:"category_id,omitempty"`
 
 	// 关联用户模块
 	User user.User `json:"user"`

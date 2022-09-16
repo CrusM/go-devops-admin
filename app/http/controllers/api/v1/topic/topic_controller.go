@@ -3,6 +3,7 @@ package topic
 import (
 	"go-devops-admin/app/http/controllers/api"
 	"go-devops-admin/app/models/topic"
+	topicPolicies "go-devops-admin/app/policies/topic"
 	"go-devops-admin/app/requests"
 
 	// "go-devops-admin/app/policies"
@@ -72,10 +73,10 @@ func (ctrl *TopicsController) Update(c *gin.Context) {
 		return
 	}
 
-	// if ok := policies.CanModifyTopic(c, topicsModel); !ok {
-	//     response.Abort403(c)
-	//     return
-	// }
+	if ok := topicPolicies.CanModifyTopic(c, topicsModel); !ok {
+		response.Abort403(c)
+		return
+	}
 
 	request := topicRequest.TopicRequest{}
 	if bindOk := requests.Validate(c, &request, topicRequest.TopicSave); !bindOk {
@@ -84,9 +85,9 @@ func (ctrl *TopicsController) Update(c *gin.Context) {
 
 	// 需要求改的字段内容
 	// topicsModel.FieldName = request.FieldName
-    topicsModel.Title = request.Title
-    topicsModel.Body = request.Body
-    topicsModel.CategoryID = request.CategoryID
+	topicsModel.Title = request.Title
+	topicsModel.Body = request.Body
+	topicsModel.CategoryID = request.CategoryID
 
 	rowsAffected := topicsModel.Save()
 
