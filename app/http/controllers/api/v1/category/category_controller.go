@@ -82,7 +82,8 @@ func (ctrl *CategoriesController) Update(c *gin.Context) {
 	}
 
 	// 需要求改的字段内容
-	// categoriesModel.FieldName = request.FieldName
+	categoriesModel.Name = request.Name
+	categoriesModel.Description = request.Description
 
 	rowsAffected := categoriesModel.Save()
 
@@ -106,7 +107,7 @@ func (ctrl *CategoriesController) Delete(c *gin.Context) {
 	// 	return
 	// }
 
-	rowsAffected := categoriesModel.Save()
+	rowsAffected := categoriesModel.Delete()
 
 	if rowsAffected > 0 {
 		response.SUCCESS(c)

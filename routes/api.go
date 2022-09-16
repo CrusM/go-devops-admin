@@ -65,7 +65,10 @@ func RegisterAPIRouters(r *gin.Engine) {
 		cgc := new(category.CategoriesController)
 		cgcGroup := v1.Group("/categories")
 		{
+			cgcGroup.GET("", cgc.List)
 			cgcGroup.POST("", middleware.AuthJWT(), cgc.Create)
+			cgcGroup.PUT("/:id", middleware.AuthJWT(), cgc.Update)
+			cgcGroup.DELETE("/:id", middleware.AuthJWT(), cgc.Delete)
 		}
 	}
 }
