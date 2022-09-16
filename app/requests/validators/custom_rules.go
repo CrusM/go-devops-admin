@@ -11,7 +11,7 @@ import (
 	"github.com/thedevsaddam/govalidator"
 )
 
-// 自定义校验规则
+// 注册自定义校验规则
 
 func init() {
 	// 自定义校验规则, 验证请求数据必须不存在于数据库中
@@ -54,6 +54,35 @@ func init() {
 			}
 			// 默认错误消息
 			return fmt.Errorf("%v 已被占用", requestValue)
+		}
+		// 验证通过
+		return nil
+	})
+
+	// 自定义规则 exists，确保数据库存在某条数据,和 not_exists 相反
+	govalidator.AddCustomRule("exists", func(field string, rule string, message string, value interface{}) error {
+		rng := strings.Split(strings.TrimPrefix(rule, "exists:"), ",")
+
+		// 第一个参数, 表名称, 如 users
+		tableName := rng[0]
+		// 第二个参数字段名称, 如 phone、email
+		dbField := rng[1]
+
+		// 用户请求过来的数据
+		requestValue := value.(string)
+
+		// 查询结果
+		var count int64
+		database.DB.Table(tableName).Where(dbField+" = ?", requestValue).Count(&count)
+
+		// 数据库有数据, 验证不通过
+		if count == 0 {
+			// 如果有自定义错误消息的话
+			if message != "" {
+				return errors.New(message)
+			}
+			// 默认错误消息
+			return fmt.Errorf("%v 不存在", requestValue)
 		}
 		// 验证通过
 		return nil
