@@ -38,6 +38,7 @@ func init() {
 		CmdMakeApiRequest,
 		CmdMakeMigration,
 		CmdMakeFactory,
+		CmdMakeSeeder,
 	)
 }
 

@@ -11,7 +11,7 @@ func MakeCategories(count int) []category.Category {
 
 	for i := 0; i < count; i++ {
 		categoriesModel := category.Category{
-			Name:        faker.Name(),
+			Name:        faker.Username(),
 			Description: faker.Sentence(),
 		}
 
