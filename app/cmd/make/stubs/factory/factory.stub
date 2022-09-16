@@ -1,0 +1,21 @@
+package factories
+
+import (
+    "go-devops-admin/app/models/{{PackageName}}"
+	"go-devops-admin/pkg/helpers"
+
+	"github.com/bxcodec/faker/v3"
+)
+
+func Make{{StructNamePlural}}(count int) []{{PackageName}}.{{StructName}} {
+    var obj []{{PackageName}}.{{StructName}}
+
+    for i := 0;i < count; i ++ {
+        {{VariableName}}Model := {{PackageName}}.{{StructName}}{
+            //
+        }
+
+        obj = append(obj, {{VariableName}}Model)
+    }
+    return obj
+}
