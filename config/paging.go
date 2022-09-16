@@ -22,7 +22,7 @@ func init() {
 
 			// URL 中每页页数的参数字段
 			// 此值若修改,需要同时修改 requests 中的验证规则
-			"url_query_page_size": "page_size",
+			"url_query_page_size": "10",
 		}
 	})
 }
