@@ -51,9 +51,8 @@ func (ctrl *LinksController) Create(c *gin.Context) {
 
 	linksModel := link.Link{
 		// 填充各个字段的内容
-		// FieldName: request.FieldName,
-		// Name: request.Name,
-		// URL:  request.URL,
+		Name: request.Name,
+		URL:  request.URL,
 	}
 	linksModel.Create()
 	if linksModel.ID > 0 {
@@ -82,7 +81,8 @@ func (ctrl *LinksController) Update(c *gin.Context) {
 	}
 
 	// 需要求改的字段内容
-	// linksModel.FieldName = request.FieldName
+	linksModel.Name = request.Name
+	linksModel.URL = request.URL
 
 	rowsAffected := linksModel.Save()
 
