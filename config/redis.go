@@ -10,8 +10,10 @@ func init() {
 			"port":     config.Env("REDIS_PORT", "6379"),
 			"password": config.Env("REDIS_PASSWORD", ""),
 
-			// 数据库
-			"database": config.Env("Redis_MAIN_DB", 1),
+			// 缓存 cache 包使用 0, 缓存清空理应当不影响业务
+			"database_cache": config.Env("Redis_Cache_DB", 0),
+			// 业务缓存用 1, 如 图片验证码，短信验证码
+			"database": config.Env("Redis_MAIN_DB", 1),	
 		}
 	})
 }
