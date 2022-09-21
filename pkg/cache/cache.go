@@ -47,6 +47,7 @@ func Has(key string) bool {
 //    cache.GetObject(key, &model)
 func GetObject(key string, wanted interface{}) {
 	val := Cache.Store.Get(key)
+	logger.DebugString("cache get", "cache key :%v", key)
 	if len(val) > 0 {
 		err := json.Unmarshal([]byte(val), &wanted)
 		logger.LogIf(err)

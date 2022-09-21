@@ -10,7 +10,6 @@ import (
 	"go-devops-admin/pkg/response"
 
 	"github.com/gin-gonic/gin"
-	"github.com/spf13/cast"
 )
 
 type LinksController struct {
@@ -19,16 +18,17 @@ type LinksController struct {
 
 // 列表查询
 func (ctrl *LinksController) List(c *gin.Context) {
-	request := requests.PaginationRequest{}
-	if ok := requests.Validate(c, &request, requests.Pagination); !ok {
-		return
-	}
+	// request := requests.PaginationRequest{}
+	// if ok := requests.Validate(c, &request, requests.Pagination); !ok {
+	// 	return
+	// }
 
-	data, paper := link.Paginate(c, cast.ToInt(request.PageSize))
-	response.JSON(c, gin.H{
-		"data":  data,
-		"paper": paper,
-	})
+	// data, paper := link.Paginate(c, cast.ToInt(request.PageSize))
+	// response.JSON(c, gin.H{
+	// 	"data":  data,
+	// 	"paper": paper,
+	// })
+	response.Data(c, link.AllCache())
 
 }
 
@@ -52,6 +52,8 @@ func (ctrl *LinksController) Create(c *gin.Context) {
 	linksModel := link.Link{
 		// 填充各个字段的内容
 		// FieldName: request.FieldName,
+		// Name: request.Name,
+		// URL:  request.URL,
 	}
 	linksModel.Create()
 	if linksModel.ID > 0 {
