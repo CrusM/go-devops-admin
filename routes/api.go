@@ -3,6 +3,7 @@ package routes
 import (
 	"go-devops-admin/app/http/controllers/api/v1/auth"
 	"go-devops-admin/app/http/controllers/api/v1/category"
+	"go-devops-admin/app/http/controllers/api/v1/link"
 	"go-devops-admin/app/http/controllers/api/v1/topic"
 	"go-devops-admin/app/http/controllers/api/v1/user"
 	"go-devops-admin/app/http/middleware"
@@ -81,6 +82,17 @@ func RegisterAPIRouters(r *gin.Engine) {
 			tpcGroup.POST("", middleware.AuthJWT(), tpc.Create)
 			tpcGroup.PUT("/:id", middleware.AuthJWT(), tpc.Update)
 			tpcGroup.DELETE("/:id", middleware.AuthJWT(), tpc.Delete)
+		}
+
+		// topic
+		lsc := new(link.LinksController)
+		lscGroup := v1.Group("/links")
+		{
+			lscGroup.GET("", lsc.List)
+			lscGroup.GET("/:id", lsc.Show)
+			lscGroup.POST("", middleware.AuthJWT(), lsc.Create)
+			lscGroup.PUT("/:id", middleware.AuthJWT(), lsc.Update)
+			lscGroup.DELETE("/:id", middleware.AuthJWT(), lsc.Delete)
 		}
 	}
 }
