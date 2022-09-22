@@ -119,3 +119,29 @@ func (ctrl *UsersController) Delete(c *gin.Context) {
 	response.Abort500(c, "删除失败, 稍后再试")
 
 }
+
+// 修改个人资料
+func (ctrl *UsersController) UpdateProfile(c *gin.Context) {
+	// if ok := policies.CanModifyUser(c, usersModel); !ok {
+	// 	response.Abort403(c)
+	// 	return
+	// }
+
+	request := userRequest.UserUpdateProfileRequest{}
+	if bindOk := requests.Validate(c, &request, userRequest.UserUpdateProfile); !bindOk {
+		return
+	}
+
+	currentUser := auth.CurrentUser(c)
+	currentUser.Name = request.Name
+	currentUser.City = request.City
+	currentUser.Introduction = request.Introduction
+
+	rowsAffected := currentUser.Save()
+
+	if rowsAffected > 0 {
+		response.Data(c, currentUser)
+	} else {
+		response.Abort500(c, "更新失败, 稍后再试")
+	}
+}
