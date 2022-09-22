@@ -97,3 +97,74 @@ func UserUpdateEmail(data interface{}, c *gin.Context) map[string][]string {
 	errs = validators.ValidateVerifyCode(_data.Email, _data.VerifyCode, errs)
 	return errs
 }
+
+// 修改用户手机号
+type UserUpdatePhoneRequest struct {
+	Phone      string `json:"phone,omitempty" valid:"phone" `
+	VerifyCode string `json:"verify_code,omitempty" valid:"verify_code"`
+}
+
+func UserUpdatePhone(data interface{}, c *gin.Context) map[string][]string {
+	currentUser := auth.CurrentUser(c)
+
+	rules := govalidator.MapData{
+		"phone": []string{
+			"required",
+			"digits:11",
+			"not_exists:users,phone," + currentUser.GetStringID(),
+			"not_in:" + currentUser.Phone,
+		},
+		"verify_code": []string{"required", "digits:6"},
+	}
+
+	messages := govalidator.MapData{
+		"phone": []string{
+			"required:手机号码 为必填项",
+			"digits: 手机号格式不正确, 必须为 11 位数字",
+			"not_exists:手机号已被占用",
+			"not_in:新的 手机号 和老的 手机号 一致",
+		},
+		"verify_code": []string{
+			"required:验证码答案为必填项",
+			"digits:验证码长度为 6 位数字",
+		},
+	}
+
+	errs := requests.ValidateData(data, rules, messages)
+	_data := data.(*UserUpdatePhoneRequest)
+	errs = validators.ValidateVerifyCode(_data.Phone, _data.VerifyCode, errs)
+	return errs
+}
+
+// 修改密码
+type UserUpdatePasswordRequest struct {
+	Password           string `json:"password,omitempty" valid:"password"`
+	NewPassword        string `json:"new_password,omitempty" valid:"new_password"`
+	NewPasswordConfirm string `json:"new_password_confirm,omitempty" valid:"new_password_confirm"`
+}
+
+func UserUpdatePassword(data interface{}, c *gin.Context) map[string][]string {
+
+	rules := govalidator.MapData{
+		"password":             []string{"required", "min:6"},
+		"new_password":         []string{"required", "min:6"},
+		"new_password_confirm": []string{"required", "min:6"},
+	}
+
+	messages := govalidator.MapData{
+		"password": []string{
+			"required:密码为必填项,参数名 password",
+			"min:密码长度必须大于6",
+		},
+		"new_password": []string{
+			"required:新密码为必填项,参数名 new_password",
+			"min:密码长度必须大于6",
+		},
+		"bew_password_confirm": []string{
+			"required:确认密码框为必填项,参数名 bew_password_confirm",
+			"min:密码长度必须大于6",
+		},
+	}
+
+	return requests.ValidateData(data, rules, messages)
+}

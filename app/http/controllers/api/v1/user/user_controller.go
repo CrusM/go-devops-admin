@@ -169,3 +169,58 @@ func (ctrl *UsersController) UpdateUserEmail(c *gin.Context) {
 		response.Abort500(c, "更新失败, 稍后再试")
 	}
 }
+
+// 修改邮箱
+func (ctrl *UsersController) UpdateUserPhone(c *gin.Context) {
+	// if ok := policies.CanModifyUser(c, usersModel); !ok {
+	// 	response.Abort403(c)
+	// 	return
+	// }
+
+	request := userRequest.UserUpdatePhoneRequest{}
+	if bindOk := requests.Validate(c, &request, userRequest.UserUpdatePhone); !bindOk {
+		return
+	}
+
+	currentUser := auth.CurrentUser(c)
+	currentUser.Phone = request.Phone
+
+	rowsAffected := currentUser.Save()
+
+	if rowsAffected > 0 {
+		response.Data(c, currentUser)
+	} else {
+		response.Abort500(c, "更新失败, 稍后再试")
+	}
+}
+
+// 修改邮箱
+func (ctrl *UsersController) UpdateUserPassword(c *gin.Context) {
+	// if ok := policies.CanModifyUser(c, usersModel); !ok {
+	// 	response.Abort403(c)
+	// 	return
+	// }
+
+	request := userRequest.UserUpdatePasswordRequest{}
+	if bindOk := requests.Validate(c, &request, userRequest.UserUpdatePassword); !bindOk {
+		return
+	}
+
+	currentUser := auth.CurrentUser(c)
+
+	_, err := auth.Attempt(currentUser.Name, request.Password)
+	if err != nil {
+		// 密码验证失败
+		response.Unauthorized(c, "原始密码不正确")
+	} else {
+		currentUser.Password = request.Password
+
+		rowsAffected := currentUser.Save()
+
+		if rowsAffected > 0 {
+			response.Data(c, currentUser)
+		} else {
+			response.Abort500(c, "更新失败, 稍后再试")
+		}
+	}
+}
