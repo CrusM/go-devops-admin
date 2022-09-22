@@ -62,6 +62,7 @@ func RegisterAPIRouters(r *gin.Engine) {
 		{
 			userGroup.GET("", middleware.AuthJWT(), uc.List)
 			userGroup.PUT("/update-profile", middleware.AuthJWT(), uc.UpdateProfile)
+			userGroup.PUT("/update-email", middleware.AuthJWT(), uc.UpdateUserEmail)
 		}
 
 		// category

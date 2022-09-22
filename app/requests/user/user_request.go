@@ -2,6 +2,7 @@ package user
 
 import (
 	"go-devops-admin/app/requests"
+	"go-devops-admin/app/requests/validators"
 	"go-devops-admin/pkg/auth"
 
 	"github.com/gin-gonic/gin"
@@ -60,4 +61,39 @@ func UserUpdateProfile(data interface{}, c *gin.Context) map[string][]string {
 	return requests.ValidateData(data, rules, messages)
 }
 
+type UserUpdateEmailRequest struct {
+	Email      string `json:"email,omitempty" valid:"email" `
+	VerifyCode string `json:"verify_code,omitempty" valid:"verify_code"`
+}
 
+func UserUpdateEmail(data interface{}, c *gin.Context) map[string][]string {
+	currentUser := auth.CurrentUser(c)
+
+	rules := govalidator.MapData{
+		"email": []string{
+			"required",
+			"email",
+			"not_exists:users,email," + currentUser.GetStringID(),
+			"not_in:" + currentUser.Email,
+		},
+		"verify_code": []string{"required", "digits:6"},
+	}
+
+	messages := govalidator.MapData{
+		"email": []string{
+			"required:Email 为必填项",
+			"email: Email 格式不正确, 请提供正确的邮箱地址",
+			"not_exists:Email 已经被占用",
+			"not_in:新的 Email 和老的 Email 一致",
+		},
+		"verify_code": []string{
+			"required:验证码答案为必填项",
+			"digits:验证码长度为 6 位数字",
+		},
+	}
+
+	errs := requests.ValidateData(data, rules, messages)
+	_data := data.(*UserUpdateEmailRequest)
+	errs = validators.ValidateVerifyCode(_data.Email, _data.VerifyCode, errs)
+	return errs
+}

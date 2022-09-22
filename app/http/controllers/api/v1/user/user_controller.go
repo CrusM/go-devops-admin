@@ -145,3 +145,27 @@ func (ctrl *UsersController) UpdateProfile(c *gin.Context) {
 		response.Abort500(c, "更新失败, 稍后再试")
 	}
 }
+
+// 修改邮箱
+func (ctrl *UsersController) UpdateUserEmail(c *gin.Context) {
+	// if ok := policies.CanModifyUser(c, usersModel); !ok {
+	// 	response.Abort403(c)
+	// 	return
+	// }
+
+	request := userRequest.UserUpdateEmailRequest{}
+	if bindOk := requests.Validate(c, &request, userRequest.UserUpdateEmail); !bindOk {
+		return
+	}
+
+	currentUser := auth.CurrentUser(c)
+	currentUser.Email = request.Email
+
+	rowsAffected := currentUser.Save()
+
+	if rowsAffected > 0 {
+		response.Data(c, currentUser)
+	} else {
+		response.Abort500(c, "更新失败, 稍后再试")
+	}
+}
