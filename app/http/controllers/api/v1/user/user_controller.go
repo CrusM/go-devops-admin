@@ -5,7 +5,7 @@ import (
 	"go-devops-admin/app/models/user"
 	"go-devops-admin/app/requests"
 
-	// "go-devops-admin/app/policies"
+	userPolicies "go-devops-admin/app/policies/user"
 	userRequest "go-devops-admin/app/requests/user"
 	"go-devops-admin/pkg/auth"
 	"go-devops-admin/pkg/config"
@@ -124,10 +124,12 @@ func (ctrl *UsersController) Delete(c *gin.Context) {
 
 // 修改个人资料
 func (ctrl *UsersController) UpdateProfile(c *gin.Context) {
-	// if ok := policies.CanModifyUser(c, usersModel); !ok {
-	// 	response.Abort403(c)
-	// 	return
-	// }
+	// 判断用户权限 policies
+	userModel := auth.CurrentUser(c)
+	if ok := userPolicies.CanModifyUser(c, userModel); !ok {
+		response.Abort403(c)
+		return
+	}
 
 	request := userRequest.UserUpdateProfileRequest{}
 	if bindOk := requests.Validate(c, &request, userRequest.UserUpdateProfile); !bindOk {
