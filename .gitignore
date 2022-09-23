@@ -49,6 +49,10 @@ _cgo_export.*
 tmp/
 .tmp/
 
+# 上传文件 #
+######################
+public/uploads
+
 # 系统生成文件 #
 ######################
 .DS_Store
@@ -81,7 +85,3 @@ __debug_bin
 .sass-cache/*
 node_modules/
 
-————————————————
-原文作者：Summer
-转自链接：https://learnku.com/courses/go-api/1.17/gitignore-file/11774
-版权声明：著作权归作者所有。商业转载请联系作者获得授权，非商业转载请保留以上作者信息和原文链接。

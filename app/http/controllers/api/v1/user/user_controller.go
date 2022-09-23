@@ -8,6 +8,8 @@ import (
 	// "go-devops-admin/app/policies"
 	userRequest "go-devops-admin/app/requests/user"
 	"go-devops-admin/pkg/auth"
+	"go-devops-admin/pkg/config"
+	"go-devops-admin/pkg/file"
 	"go-devops-admin/pkg/response"
 
 	"github.com/gin-gonic/gin"
@@ -214,6 +216,32 @@ func (ctrl *UsersController) UpdateUserPassword(c *gin.Context) {
 		response.Unauthorized(c, "原始密码不正确")
 	} else {
 		currentUser.Password = request.Password
+
+		rowsAffected := currentUser.Save()
+
+		if rowsAffected > 0 {
+			response.Data(c, currentUser)
+		} else {
+			response.Abort500(c, "更新失败, 稍后再试")
+		}
+	}
+}
+
+// 上传用户头像
+func (ctrl *UsersController) UpdateUserAvatar(c *gin.Context) {
+
+	request := userRequest.UserUpdateAvatarRequest{}
+	if bindOk := requests.Validate(c, &request, userRequest.UserUpdateAvatar); !bindOk {
+		return
+	}
+
+	avatar, err := file.SaveUploadAvatar(c, request.Avatar)
+	if err != nil {
+		// 密码验证失败
+		response.Abort500(c, "上传头像失败, 请稍后再试")
+	} else {
+		currentUser := auth.CurrentUser(c)
+		currentUser.Avatar = config.GetString("app.url") + avatar
 
 		rowsAffected := currentUser.Save()
 

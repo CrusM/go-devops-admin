@@ -4,6 +4,7 @@ import (
 	"go-devops-admin/app/requests"
 	"go-devops-admin/app/requests/validators"
 	"go-devops-admin/pkg/auth"
+	"mime/multipart"
 
 	"github.com/gin-gonic/gin"
 	"github.com/thedevsaddam/govalidator"
@@ -167,4 +168,27 @@ func UserUpdatePassword(data interface{}, c *gin.Context) map[string][]string {
 	}
 
 	return requests.ValidateData(data, rules, messages)
+}
+
+// 上传用户头像
+type UserUpdateAvatarRequest struct {
+	// Govalidator 验证文件必须使用的类型 *multipart.FileHeader
+	Avatar *multipart.FileHeader `valid:"avatar" form:"avatar"`
+}
+
+func UserUpdateAvatar(data interface{}, c *gin.Context) map[string][]string {
+
+	rules := govalidator.MapData{
+		// size 单位 bytes,  5242880 bytes 为 5mb
+		"file:avatar": []string{"required", "size:5242880", "ext:png,jpg,jpeg"},
+	}
+
+	messages := govalidator.MapData{
+		"avatar": []string{
+			"required:必须上传图片",
+			"ext:头像只能上传 png,jpg,jpeg 格式的图片",
+			"size:头像图片大小不能超过 5mb",
+		},
+	}
+	return requests.ValidateFile(c, data, rules, messages)
 }
