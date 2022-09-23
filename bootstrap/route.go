@@ -25,6 +25,7 @@ func registerGlobalMiddleWare(r *gin.Engine) {
 	r.Use(
 		middleware.Logger(),
 		middleware.Recovery(),
+		middleware.ForceUA(),
 	)
 }
 
