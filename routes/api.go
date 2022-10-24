@@ -7,6 +7,7 @@ import (
 	"go-devops-admin/app/http/controllers/api/v1/topic"
 	"go-devops-admin/app/http/controllers/api/v1/user"
 	"go-devops-admin/app/http/middleware"
+	"go-devops-admin/pkg/config"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -14,7 +15,12 @@ import (
 
 func RegisterAPIRouters(r *gin.Engine) {
 	// 测试一个 v1 的路由组，所有v1版本的路由都存在这里
-	v1 := r.Group("/v1")
+	var v1 *gin.RouterGroup
+	if len(config.Get("api.api_domain")) == 0 {
+		v1 = r.Group("/api/v1")
+	} else {
+		v1 = r.Group("/v1")
+	}
 	// 添加全局限流中间件: 每小时限速. 这里是所有 API (根据 IP) 请求加起来.
 	// 参考 github api 每小时最多 60 个请求
 	v1.Use(middleware.LimitIP("200-H"))
