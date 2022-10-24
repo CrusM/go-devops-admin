@@ -7,15 +7,15 @@ func init() {
 		return map[string]interface{}{
 			// 默认 mail 配置信息
 			"smtp": map[string]interface{}{
-				"host":     config.Env("MAIL_HOST", "localhost"),
-				"port":     config.Env("MAIL_PORT", 1025),
-				"username": config.Env("MAIL_USERNAME", ""),
-				"password": config.Env("MAIL_PASSWORD", ""),
+				"host":     config.Env("mail.host", "localhost"),
+				"port":     config.Env("mail.port", 1025),
+				"username": config.Env("mail.username", ""),
+				"password": config.Env("mail.password", ""),
 			},
 
 			"form": map[string]interface{}{
-				"address": config.Env("EMAIL_FROM_ADDRESS", "devops@example.com"),
-				"name":    config.Env("EMAIL_FROM_NAME", "devops"),
+				"address": config.Env("mail.from.address", "devops@example.com"),
+				"name":    config.Env("mail.from.name", "devops"),
 			},
 		}
 	})

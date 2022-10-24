@@ -1,0 +1,59 @@
+app:
+  env: local
+  key: zBqYyQrPNaIUsnRhsGtHLivjqiMjBVLS
+  debug: true
+  url: http://localhost:8080
+  port: 8080
+  timezone: Asia/Shanghai
+
+log:
+  level: info
+  type: daily
+  name: storage/logs/logs.log
+  max_size: 100
+  max_backup: 5
+  max_age: 7
+
+db:
+  type: mysql
+  host: 192.168.21.57
+  username: root
+  password: cnstrong
+  database: go-devops-admin
+  debug: 2
+  max_idle_connections: 10
+  max_open_connections: 30
+  max_life_seconds: 300
+
+redis:
+  host: 192.168.21.86
+  port: 6379
+  password:
+  cache_db: 0
+  main_db: 1
+
+jwt:
+  expire_time: 120
+  max_refresh_time: 86400
+  debug_expire_time: 86400
+
+verify:
+  code:
+    length: 6
+    expire: 15
+
+mail:
+  host: localhost
+  port: 1025
+  username:
+  password:
+  from:
+    address: go-devops-admin@example.com
+    name: devops
+
+sms:
+  aliyun:
+    ACCESS_ID:
+    ACCESS_SECRET:
+    SIGN_NAME:
+    TEMPLATE_CODE: 

@@ -22,7 +22,7 @@ func init() {
 	viper = viperLib.New()
 
 	// 配置类型,支持"json","toml","yaml", "yml", "properties", "props", "prop", "env", "dotenv"
-	viper.SetConfigType("env")
+	viper.SetConfigType("yml")
 
 	// 环境变量配置文件查找路径, 和main.go同级
 	viper.AddConfigPath(".")
@@ -52,9 +52,9 @@ func LoadConfig() {
 
 func LoadEnv(envSuffix string) {
 	// 默认加载.env文件, 如果参数传递--env=name，加载.env.name文件
-	envPath := ".env"
+	envPath := "settings"
 	if len(envSuffix) > 0 {
-		filepath := envPath + "." + envSuffix
+		filepath := envPath + "-" + envSuffix
 		if _, err := os.Stat(filepath); err == nil {
 			// 如果.env.name文件存在，则加载对应的配置文件，否则加载默认配置文件
 			envPath = filepath

@@ -6,9 +6,9 @@ func init() {
 	config.Add("verifyCode", func() map[string]interface{} {
 		return map[string]interface{}{
 			// 验证码长度
-			"code_length": config.Env("VERIFY_CODE_LENGTH", 6),
+			"code_length": config.Env("verify.code.length", 6),
 			// 过期时间, 单位分钟
-			"expire_time": config.Env("VERIFY_CODE_EXPIRE", 15),
+			"expire_time": config.Env("verify.code.expire", 15),
 
 			// debug 模式
 			"debug_expire_time": 10080,
