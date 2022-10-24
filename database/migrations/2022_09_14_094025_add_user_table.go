@@ -2,7 +2,7 @@ package migrations
 
 import (
 	"database/sql"
-	"go-devops-admin/app/models"
+	"go-devops-admin/app"
 	"go-devops-admin/pkg/migrate"
 
 	"gorm.io/gorm"
@@ -10,14 +10,14 @@ import (
 
 func init() {
 	type User struct {
-		models.BaseModel
+		app.BaseModel
 
-		Name string `gorm:"varchar(255);not null;index"`
+		Name     string `gorm:"varchar(255);not null;index"`
 		Email    string `gorm:"type:varchar(255);index;default:null"`
-        Phone    string `gorm:"type:varchar(20);index;default:null"`
-        Password string `gorm:"type:varchar(255)"`
+		Phone    string `gorm:"type:varchar(20);index;default:null"`
+		Password string `gorm:"type:varchar(255)"`
 
-        models.CommonTimestampField
+		app.CommonTimestampField
 	}
 
 	up := func(migrator gorm.Migrator, DB *sql.DB) {

@@ -1,7 +1,7 @@
 package bootstrap
 
 import (
-	"go-devops-admin/app/http/middleware"
+	"go-devops-admin/middleware"
 	"go-devops-admin/routes"
 	"net/http"
 	"strings"

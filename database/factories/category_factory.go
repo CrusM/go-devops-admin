@@ -1,7 +1,7 @@
 package factories
 
 import (
-	"go-devops-admin/app/models/category"
+	category "go-devops-admin/app/category/models"
 
 	"github.com/bxcodec/faker/v3"
 )

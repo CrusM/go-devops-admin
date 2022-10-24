@@ -2,7 +2,7 @@ package auth
 
 import (
 	"errors"
-	"go-devops-admin/app/models/user"
+	user "go-devops-admin/app/user/models"
 	"go-devops-admin/pkg/logger"
 
 	"github.com/gin-gonic/gin"

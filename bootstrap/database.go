@@ -4,7 +4,7 @@ import (
 	"errors"
 	"fmt"
 
-	"go-devops-admin/app/models/user"
+	user "go-devops-admin/app/user/models"
 	"go-devops-admin/pkg/config"
 	"go-devops-admin/pkg/database"
 	"go-devops-admin/pkg/logger"

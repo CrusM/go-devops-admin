@@ -1,12 +1,12 @@
 package routes
 
 import (
-	"go-devops-admin/app/http/controllers/api/v1/auth"
-	"go-devops-admin/app/http/controllers/api/v1/category"
-	"go-devops-admin/app/http/controllers/api/v1/link"
-	"go-devops-admin/app/http/controllers/api/v1/topic"
-	"go-devops-admin/app/http/controllers/api/v1/user"
-	"go-devops-admin/app/http/middleware"
+	auth "go-devops-admin/app/auth/controllers/v1"
+	category "go-devops-admin/app/category/controllers/v1"
+	link "go-devops-admin/app/link/controllers/v1"
+	topic "go-devops-admin/app/topic/controllers/v1"
+	user "go-devops-admin/app/user/controllers/v1"
+	"go-devops-admin/middleware"
 	"go-devops-admin/pkg/config"
 	"net/http"
 

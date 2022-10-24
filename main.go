@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"go-devops-admin/app/cmd"
-	"go-devops-admin/app/cmd/make"
+	"go-devops-admin/cmd"
+	"go-devops-admin/cmd/make"
 	"go-devops-admin/bootstrap"
 	btsConfig "go-devops-admin/config"
 	"go-devops-admin/pkg/config"

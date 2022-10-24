@@ -1,7 +1,7 @@
 package factories
 
 import (
-	"go-devops-admin/app/models/link"
+	link "go-devops-admin/app/link/models"
 
 	"github.com/bxcodec/faker/v3"
 )
