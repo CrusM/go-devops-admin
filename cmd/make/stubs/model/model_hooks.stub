@@ -1,4 +1,4 @@
-package {{PackageName}}
+package models
 
 // func ({{VariableName}} *{{StructName}}) BeforeSave(tx *gorm.DB) (err error) {}
 // func ({{VariableName}} *{{StructName}}) BeforeCreate(tx *gorm.DB) (err error) {}

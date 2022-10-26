@@ -19,7 +19,7 @@ func runMakeCMD(cmd *cobra.Command, args []string) {
 	model := makeModelFormString(args[0])
 
 	// 拼接目标文件路径
-	filePath := fmt.Sprintf("app/cmd/%s.go", model.PackageName)
+	filePath := fmt.Sprintf("cmd/%s.go", model.PackageName)
 
 	// 从模板中创建文件
 	createFileFromStub(filePath, "cmd", model)

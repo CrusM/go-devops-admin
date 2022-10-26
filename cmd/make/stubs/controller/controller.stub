@@ -1,11 +1,10 @@
 package {{PackageName}}
 
 import (
-    "go-devops-admin/app/http/controllers/api"
-    "go-devops-admin/app/requests"
-    "go-devops-admin/app/models/{{PackageName}}"
-    "go-devops-admin/app/policies"
-    {{PackageName}}Request "go-devops-admin/app/requests/{{PackageName}}"
+    "go-devops-admin/app"
+    {{PackageName}} "go-devops-admin/app/{{PackageName}}/models"
+    {{PackageName}}Policy "go-devops-admin/app/{{PackageName}}/policies"
+    {{PackageName}}Request "go-devops-admin/app/{{PackageName}}/requests"
     "go-devops-admin/pkg/response"
 
     "github.com/gin-gonic/gin"
@@ -13,13 +12,13 @@ import (
 )
 
 type {{StructNamePlural}}Controller struct {
-    api.BaseAPIController
+    app.BaseAPIController
 }
 
 // 列表查询
 func (ctrl *{{StructNamePlural}}Controller) List(c *gin.Context) {
-    request := requests.PaginationRequest{}
-	if ok := requests.Validate(c, &request, requests.Pagination); !ok {
+    request := app.PaginationRequest{}
+	if ok := app.Validate(c, &request, app.Pagination); !ok {
 		return
 	}
 
@@ -44,7 +43,7 @@ func (ctrl *{{StructNamePlural}}Controller) Show(c *gin.Context) {
 // 新增接口
 func (ctrl *{{StructNamePlural}}Controller) Create(c *gin.Context) {
     request := {{PackageName}}Request.{{StructName}}Request{}
-    if ok := requests.Validate(c, &request, {{PackageName}}Request.{{StructName}}Save); !ok {
+    if ok := app.Validate(c, &request, {{PackageName}}Request.{{StructName}}Save); !ok {
 		return
 	}
 
@@ -68,13 +67,10 @@ func (ctrl *{{StructNamePlural}}Controller) Update(c *gin.Context) {
         return
     }
 
-    if ok := policies.CanModify{{StructName}}(c, {{VariableName}}Model); !ok {
-        response.Abort403(c)
-        return
-    }
+    // 设置权限认证 policy
     
     request := {{PackageName}}Request.{{StructName}}Request{}
-    if bindOk := requests.Validate(c, &request, {{PackageName}}Request.{{StructName}}Save); !bindOk {
+    if bindOk := app.Validate(c, &request, {{PackageName}}Request.{{StructName}}Save); !bindOk {
 		return
 	}
 
@@ -98,10 +94,7 @@ func (ctrl *{{StructNamePlural}}Controller) Delete(c *gin.Context) {
         return
     }
 
-    if ok := policies.CanModify{{StructName}}(c, {{VariableName}}Model); !ok {
-        response.Abort403(c)
-        return
-    }
+    // 设置权限认证 policy
 
     rowsAffected := {{VariableName}}Model.Delete()
 

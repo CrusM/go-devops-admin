@@ -27,7 +27,7 @@ func runMakeApiController(cmd *cobra.Command, args []string) {
 	model := makeModelFormString(apiName)
 
 	// 组建目录
-	dir := fmt.Sprintf("app/http/controllers/api/%s/%s/", apiVersion, model.PackageName)
+	dir := fmt.Sprintf("app/%s/controllers/%s/", model.PackageName, apiVersion)
 	os.MkdirAll(dir, os.ModePerm)
 
 	apiModel := make(map[string]string)

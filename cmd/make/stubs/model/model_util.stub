@@ -1,4 +1,4 @@
-package {{PackageName}}
+package models
 
 import (
     "go-devops-admin/pkg/app"

@@ -19,7 +19,7 @@ func runMakeModel(cmd *cobra.Command, args []string) {
 	model := makeModelFormString(args[0])
 
 	// 拼接目标文件路径
-	dir := fmt.Sprintf("app/models/%s/", model.PackageName)
+	dir := fmt.Sprintf("app/%s/models/", model.PackageName)
 	os.MkdirAll(dir, os.ModePerm)
 
 	// 从模板中创建文件
