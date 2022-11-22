@@ -1,14 +1,14 @@
 package models
 
 import (
-	"go-devops-admin/app"
+	"go-devops-admin/app/base"
 	category "go-devops-admin/app/category/models"
 	user "go-devops-admin/app/user/models"
 	"go-devops-admin/pkg/database"
 )
 
 type Topic struct {
-	app.BaseModel
+	base.BaseModel
 
 	Title      string `json:"title,omitempty"`
 	Body       string `json:"body,omitempty"`
@@ -20,7 +20,7 @@ type Topic struct {
 	// 管理分类模块
 	Category category.Category `json:"category"`
 
-	app.CommonTimestampField
+	base.CommonTimestampField
 }
 
 func (topics *Topic) Create() {

@@ -1,8 +1,8 @@
 package requests
 
 import (
-	"go-devops-admin/app"
-	"go-devops-admin/app/validators"
+	"go-devops-admin/app/base"
+	"go-devops-admin/app/base/validators"
 
 	"github.com/gin-gonic/gin"
 	"github.com/thedevsaddam/govalidator"
@@ -30,7 +30,7 @@ func LoginByPhone(data interface{}, c *gin.Context) map[string][]string {
 			"digits:验证码长度必须为6为数字",
 		},
 	}
-	errs := app.ValidateData(data, rules, messages)
+	errs := base.ValidateData(data, rules, messages)
 
 	// 手机验证码
 	_data := data.(*LoginByPhoneRequest)
@@ -72,7 +72,7 @@ func LoginByPassword(data interface{}, c *gin.Context) map[string][]string {
 		},
 	}
 
-	errs := app.ValidateData(data, rules, messages)
+	errs := base.ValidateData(data, rules, messages)
 	_data := data.(*LoginByPasswordRequest)
 	return validators.ValidateCaptcha(_data.CaptchaID, _data.CaptchaAnswer, errs)
 }

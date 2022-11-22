@@ -1,7 +1,7 @@
 package v1
 
 import (
-	"go-devops-admin/app"
+	"go-devops-admin/app/base"
 	category "go-devops-admin/app/category/models"
 
 	// "go-devops-admin/app/policies"
@@ -13,13 +13,13 @@ import (
 )
 
 type CategoriesController struct {
-	app.BaseAPIController
+	base.BaseAPIController
 }
 
 // 列表查询
 func (ctrl *CategoriesController) List(c *gin.Context) {
-	request := app.PaginationRequest{}
-	if ok := app.Validate(c, &request, app.Pagination); !ok {
+	request := base.PaginationRequest{}
+	if ok := base.Validate(c, &request, base.Pagination); !ok {
 		return
 	}
 
@@ -44,7 +44,7 @@ func (ctrl *CategoriesController) Show(c *gin.Context) {
 // 新增接口
 func (ctrl *CategoriesController) Create(c *gin.Context) {
 	request := categoryRequest.CategoryRequest{}
-	if ok := app.Validate(c, &request, categoryRequest.CategorySave); !ok {
+	if ok := base.Validate(c, &request, categoryRequest.CategorySave); !ok {
 		return
 	}
 
@@ -76,7 +76,7 @@ func (ctrl *CategoriesController) Update(c *gin.Context) {
 	// }
 
 	request := categoryRequest.CategoryRequest{}
-	if bindOk := app.Validate(c, &request, categoryRequest.CategorySave); !bindOk {
+	if bindOk := base.Validate(c, &request, categoryRequest.CategorySave); !bindOk {
 		return
 	}
 

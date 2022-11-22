@@ -2,7 +2,7 @@ package migrations
 
 import (
 	"database/sql"
-	"go-devops-admin/app"
+	"go-devops-admin/app/base"
 	"go-devops-admin/pkg/migrate"
 
 	"gorm.io/gorm"
@@ -11,14 +11,14 @@ import (
 func init() {
 
 	type User struct {
-		app.BaseModel
+		base.BaseModel
 	}
 	type Category struct {
-		app.BaseModel
+		base.BaseModel
 	}
 
 	type Topic struct {
-		app.BaseModel
+		base.BaseModel
 
 		Title      string `gorm:"type:varchar(255);not null;index"`
 		Body       string `gorm:"type:longtext;not null"`
@@ -30,7 +30,7 @@ func init() {
 		// 管理分类模块
 		Category Category
 
-		app.CommonTimestampField
+		base.CommonTimestampField
 	}
 
 	up := func(migrator gorm.Migrator, DB *sql.DB) {

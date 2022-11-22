@@ -2,7 +2,7 @@ package migrations
 
 import (
 	"database/sql"
-	"go-devops-admin/app"
+	"go-devops-admin/app/base"
 	"go-devops-admin/pkg/migrate"
 
 	"gorm.io/gorm"
@@ -10,12 +10,12 @@ import (
 
 func init() {
 	type Link struct {
-		app.BaseModel
+		base.BaseModel
 
 		Name string `gorm:"type:varchar(255);not null"`
 		URL  string `grom:"type:varchar(255);default;null"`
 
-		app.CommonTimestampField
+		base.CommonTimestampField
 	}
 
 	up := func(migrator gorm.Migrator, DB *sql.DB) {

@@ -1,4 +1,4 @@
-package app
+package base
 
 // 处理请求数据和表单验证
 
@@ -56,7 +56,6 @@ func ValidateFile(c *gin.Context, data interface{}, rules govalidator.MapData, m
 	// Validate 方法来验证文件
 	return govalidator.New(opts).Validate()
 }
-
 
 type PaginationRequest struct {
 	Sort     string `json:"sort" valid:"sort" form:"sort"`

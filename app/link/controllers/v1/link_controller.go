@@ -1,7 +1,7 @@
 package link
 
 import (
-	"go-devops-admin/app"
+	"go-devops-admin/app/base"
 	link "go-devops-admin/app/link/models"
 
 	// "go-devops-admin/app/policies"
@@ -12,7 +12,7 @@ import (
 )
 
 type LinksController struct {
-	app.BaseAPIController
+	base.BaseAPIController
 }
 
 // 列表查询
@@ -44,7 +44,7 @@ func (ctrl *LinksController) Show(c *gin.Context) {
 // 新增接口
 func (ctrl *LinksController) Create(c *gin.Context) {
 	request := linkRequest.LinkRequest{}
-	if ok := app.Validate(c, &request, linkRequest.LinkSave); !ok {
+	if ok := base.Validate(c, &request, linkRequest.LinkSave); !ok {
 		return
 	}
 
@@ -75,7 +75,7 @@ func (ctrl *LinksController) Update(c *gin.Context) {
 	// }
 
 	request := linkRequest.LinkRequest{}
-	if bindOk := app.Validate(c, &request, linkRequest.LinkSave); !bindOk {
+	if bindOk := base.Validate(c, &request, linkRequest.LinkSave); !bindOk {
 		return
 	}
 

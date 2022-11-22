@@ -1,7 +1,7 @@
 package v1
 
 import (
-	"go-devops-admin/app"
+	"go-devops-admin/app/base"
 	user "go-devops-admin/app/user/models"
 
 	userPolicies "go-devops-admin/app/user/policies"
@@ -15,7 +15,7 @@ import (
 )
 
 type UsersController struct {
-	app.BaseAPIController
+	base.BaseAPIController
 }
 
 // 获取当前用户
@@ -26,8 +26,8 @@ func (ctrl *UsersController) CurrentUser(c *gin.Context) {
 
 // 列表查询
 func (ctrl *UsersController) List(c *gin.Context) {
-	request := app.PaginationRequest{}
-	if ok := app.Validate(c, &request, app.Pagination); !ok {
+	request := base.PaginationRequest{}
+	if ok := base.Validate(c, &request, base.Pagination); !ok {
 		return
 	}
 
@@ -51,7 +51,7 @@ func (ctrl *UsersController) Show(c *gin.Context) {
 // 新增接口
 func (ctrl *UsersController) Create(c *gin.Context) {
 	request := userRequest.UserRequest{}
-	if ok := app.Validate(c, &request, userRequest.UserSave); !ok {
+	if ok := base.Validate(c, &request, userRequest.UserSave); !ok {
 		return
 	}
 
@@ -81,7 +81,7 @@ func (ctrl *UsersController) Update(c *gin.Context) {
 	// }
 
 	request := userRequest.UserRequest{}
-	if bindOk := app.Validate(c, &request, userRequest.UserSave); !bindOk {
+	if bindOk := base.Validate(c, &request, userRequest.UserSave); !bindOk {
 		return
 	}
 
@@ -131,7 +131,7 @@ func (ctrl *UsersController) UpdateProfile(c *gin.Context) {
 	}
 
 	request := userRequest.UserUpdateProfileRequest{}
-	if bindOk := app.Validate(c, &request, userRequest.UserUpdateProfile); !bindOk {
+	if bindOk := base.Validate(c, &request, userRequest.UserUpdateProfile); !bindOk {
 		return
 	}
 
@@ -157,7 +157,7 @@ func (ctrl *UsersController) UpdateUserEmail(c *gin.Context) {
 	// }
 
 	request := userRequest.UserUpdateEmailRequest{}
-	if bindOk := app.Validate(c, &request, userRequest.UserUpdateEmail); !bindOk {
+	if bindOk := base.Validate(c, &request, userRequest.UserUpdateEmail); !bindOk {
 		return
 	}
 
@@ -181,7 +181,7 @@ func (ctrl *UsersController) UpdateUserPhone(c *gin.Context) {
 	// }
 
 	request := userRequest.UserUpdatePhoneRequest{}
-	if bindOk := app.Validate(c, &request, userRequest.UserUpdatePhone); !bindOk {
+	if bindOk := base.Validate(c, &request, userRequest.UserUpdatePhone); !bindOk {
 		return
 	}
 
@@ -205,7 +205,7 @@ func (ctrl *UsersController) UpdateUserPassword(c *gin.Context) {
 	// }
 
 	request := userRequest.UserUpdatePasswordRequest{}
-	if bindOk := app.Validate(c, &request, userRequest.UserUpdatePassword); !bindOk {
+	if bindOk := base.Validate(c, &request, userRequest.UserUpdatePassword); !bindOk {
 		return
 	}
 
@@ -232,7 +232,7 @@ func (ctrl *UsersController) UpdateUserPassword(c *gin.Context) {
 func (ctrl *UsersController) UpdateUserAvatar(c *gin.Context) {
 
 	request := userRequest.UserUpdateAvatarRequest{}
-	if bindOk := app.Validate(c, &request, userRequest.UserUpdateAvatar); !bindOk {
+	if bindOk := base.Validate(c, &request, userRequest.UserUpdateAvatar); !bindOk {
 		return
 	}
 

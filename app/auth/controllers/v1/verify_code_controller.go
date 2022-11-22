@@ -1,8 +1,8 @@
 package v1
 
 import (
-	"go-devops-admin/app"
 	authRequest "go-devops-admin/app/auth/requests"
+	"go-devops-admin/app/base"
 	"go-devops-admin/pkg/captcha"
 	"go-devops-admin/pkg/logger"
 	"go-devops-admin/pkg/response"
@@ -12,7 +12,7 @@ import (
 
 // 验证码控制器
 type VerifyCodeController struct {
-	app.BaseAPIController
+	base.BaseAPIController
 }
 
 // 显示图片验证码
@@ -34,7 +34,7 @@ func (vc *VerifyCodeController) ShowCaptcha(c *gin.Context) {
 func (vc *VerifyCodeController) SendUsingPhone(c *gin.Context) {
 	// 验证表单
 	request := authRequest.VerifyCodePhoneRequest{}
-	if ok := app.Validate(c, &request, authRequest.VerifyCodePhone); !ok {
+	if ok := base.Validate(c, &request, authRequest.VerifyCodePhone); !ok {
 		return
 	}
 
@@ -51,7 +51,7 @@ func (vc *VerifyCodeController) SendUsingEmail(c *gin.Context) {
 	// 验证表单
 	request := authRequest.SignUpEmailExistRequest{}
 
-	if ok := app.Validate(c, &request, authRequest.ValidateSignUpEmailExist); !ok {
+	if ok := base.Validate(c, &request, authRequest.ValidateSignUpEmailExist); !ok {
 		return
 	}
 

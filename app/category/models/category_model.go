@@ -1,17 +1,17 @@
 package models
 
 import (
-	"go-devops-admin/app"
+	"go-devops-admin/app/base"
 	"go-devops-admin/pkg/database"
 )
 
 type Category struct {
-	app.BaseModel
+	base.BaseModel
 
 	Name        string `json:"name,omitempty"`
 	Description string `json:"description,omitempty"`
 
-	app.CommonTimestampField
+	base.CommonTimestampField
 }
 
 func (categories *Category) Create() {

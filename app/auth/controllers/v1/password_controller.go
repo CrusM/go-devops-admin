@@ -1,8 +1,8 @@
 package v1
 
 import (
-	"go-devops-admin/app"
 	authRequest "go-devops-admin/app/auth/requests"
+	"go-devops-admin/app/base"
 	user "go-devops-admin/app/user/models"
 	"go-devops-admin/pkg/response"
 
@@ -10,12 +10,12 @@ import (
 )
 
 type PasswordController struct {
-	app.BaseAPIController
+	base.BaseAPIController
 }
 
 func (pc *PasswordController) ResetByPhone(c *gin.Context) {
 	request := authRequest.ResetPasswordByPhoneRequest{}
-	if ok := app.Validate(c, &request, authRequest.ResetPasswordByPhone); !ok {
+	if ok := base.Validate(c, &request, authRequest.ResetPasswordByPhone); !ok {
 		return
 	}
 
@@ -33,7 +33,7 @@ func (pc *PasswordController) ResetByPhone(c *gin.Context) {
 
 func (pc *PasswordController) ResetByEmail(c *gin.Context) {
 	request := authRequest.ResetPasswordByEmailRequest{}
-	if ok := app.Validate(c, &request, authRequest.ResetPasswordByEmail); !ok {
+	if ok := base.Validate(c, &request, authRequest.ResetPasswordByEmail); !ok {
 		return
 	}
 

@@ -1,8 +1,8 @@
 package requests
 
 import (
-	"go-devops-admin/app"
-	"go-devops-admin/app/validators"
+	"go-devops-admin/app/base"
+	"go-devops-admin/app/base/validators"
 
 	"github.com/gin-gonic/gin"
 	"github.com/thedevsaddam/govalidator"
@@ -35,7 +35,7 @@ func ResetPasswordByPhone(data interface{}, c *gin.Context) map[string][]string 
 			"min:密码长度必须大于6",
 		},
 	}
-	errs := app.ValidateData(data, rules, messages)
+	errs := base.ValidateData(data, rules, messages)
 	_data := data.(*ResetPasswordByPhoneRequest)
 	return validators.ValidateVerifyCode(_data.Phone, _data.VerifyCode, errs)
 }
@@ -68,7 +68,7 @@ func ResetPasswordByEmail(data interface{}, c *gin.Context) map[string][]string 
 			"min:密码长度必须大于6",
 		},
 	}
-	errs := app.ValidateData(data, rules, messages)
+	errs := base.ValidateData(data, rules, messages)
 	_data := data.(*ResetPasswordByEmailRequest)
 	return validators.ValidateVerifyCode(_data.Email, _data.VerifyCode, errs)
 }

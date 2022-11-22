@@ -1,7 +1,7 @@
 package v1
 
 import (
-	"go-devops-admin/app"
+	"go-devops-admin/app/base"
 	topic "go-devops-admin/app/topic/models"
 	topicPolicies "go-devops-admin/app/topic/policies"
 
@@ -15,13 +15,13 @@ import (
 )
 
 type TopicsController struct {
-	app.BaseAPIController
+	base.BaseAPIController
 }
 
 // 列表查询
 func (ctrl *TopicsController) List(c *gin.Context) {
-	request := app.PaginationRequest{}
-	if ok := app.Validate(c, &request, app.Pagination); !ok {
+	request := base.PaginationRequest{}
+	if ok := base.Validate(c, &request, base.Pagination); !ok {
 		return
 	}
 
@@ -46,7 +46,7 @@ func (ctrl *TopicsController) Show(c *gin.Context) {
 // 新增接口
 func (ctrl *TopicsController) Create(c *gin.Context) {
 	request := topicRequest.TopicRequest{}
-	if ok := app.Validate(c, &request, topicRequest.TopicSave); !ok {
+	if ok := base.Validate(c, &request, topicRequest.TopicSave); !ok {
 		return
 	}
 
@@ -78,7 +78,7 @@ func (ctrl *TopicsController) Update(c *gin.Context) {
 	}
 
 	request := topicRequest.TopicRequest{}
-	if bindOk := app.Validate(c, &request, topicRequest.TopicSave); !bindOk {
+	if bindOk := base.Validate(c, &request, topicRequest.TopicSave); !bindOk {
 		return
 	}
 

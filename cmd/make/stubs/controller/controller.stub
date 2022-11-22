@@ -3,7 +3,6 @@ package {{PackageName}}
 import (
     "go-devops-admin/app"
     {{PackageName}} "go-devops-admin/app/{{PackageName}}/models"
-    {{PackageName}}Policy "go-devops-admin/app/{{PackageName}}/policies"
     {{PackageName}}Request "go-devops-admin/app/{{PackageName}}/requests"
     "go-devops-admin/pkg/response"
 

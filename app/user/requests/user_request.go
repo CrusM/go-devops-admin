@@ -1,8 +1,8 @@
 package requests
 
 import (
-	"go-devops-admin/app"
-	"go-devops-admin/app/validators"
+	"go-devops-admin/app/base"
+	"go-devops-admin/app/base/validators"
 	"go-devops-admin/pkg/auth"
 	"mime/multipart"
 
@@ -24,7 +24,7 @@ func UserSave(data interface{}, c *gin.Context) map[string][]string {
 		// "name": []string{"required:name 为必填项"},
 	}
 
-	return app.ValidateData(data, rules, messages)
+	return base.ValidateData(data, rules, messages)
 }
 
 type UserUpdateProfileRequest struct {
@@ -59,7 +59,7 @@ func UserUpdateProfile(data interface{}, c *gin.Context) map[string][]string {
 		},
 	}
 
-	return app.ValidateData(data, rules, messages)
+	return base.ValidateData(data, rules, messages)
 }
 
 type UserUpdateEmailRequest struct {
@@ -93,7 +93,7 @@ func UserUpdateEmail(data interface{}, c *gin.Context) map[string][]string {
 		},
 	}
 
-	errs := app.ValidateData(data, rules, messages)
+	errs := base.ValidateData(data, rules, messages)
 	_data := data.(*UserUpdateEmailRequest)
 	errs = validators.ValidateVerifyCode(_data.Email, _data.VerifyCode, errs)
 	return errs
@@ -131,7 +131,7 @@ func UserUpdatePhone(data interface{}, c *gin.Context) map[string][]string {
 		},
 	}
 
-	errs := app.ValidateData(data, rules, messages)
+	errs := base.ValidateData(data, rules, messages)
 	_data := data.(*UserUpdatePhoneRequest)
 	errs = validators.ValidateVerifyCode(_data.Phone, _data.VerifyCode, errs)
 	return errs
@@ -167,7 +167,7 @@ func UserUpdatePassword(data interface{}, c *gin.Context) map[string][]string {
 		},
 	}
 
-	return app.ValidateData(data, rules, messages)
+	return base.ValidateData(data, rules, messages)
 }
 
 // 上传用户头像
@@ -190,5 +190,5 @@ func UserUpdateAvatar(data interface{}, c *gin.Context) map[string][]string {
 			"size:头像图片大小不能超过 5mb",
 		},
 	}
-	return app.ValidateFile(c, data, rules, messages)
+	return base.ValidateFile(c, data, rules, messages)
 }

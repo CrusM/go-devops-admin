@@ -1,7 +1,7 @@
 package requests
 
 import (
-	"go-devops-admin/app"
+	"go-devops-admin/app/base"
 
 	"github.com/gin-gonic/gin"
 	"github.com/thedevsaddam/govalidator"
@@ -31,5 +31,5 @@ func LinkSave(data interface{}, c *gin.Context) map[string][]string {
 		},
 	}
 
-	return app.ValidateData(data, rules, messages)
+	return base.ValidateData(data, rules, messages)
 }

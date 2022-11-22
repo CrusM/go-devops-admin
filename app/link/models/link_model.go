@@ -1,17 +1,17 @@
 package models
 
 import (
-	"go-devops-admin/app"
+	"go-devops-admin/app/base"
 	"go-devops-admin/pkg/database"
 )
 
 type Link struct {
-	app.BaseModel
+	base.BaseModel
 
 	Name string `json:"name,omitempty"`
 	URL  string `json:"url,omitempty"`
 
-	app.CommonTimestampField
+	base.CommonTimestampField
 }
 
 func (links *Link) Create() {

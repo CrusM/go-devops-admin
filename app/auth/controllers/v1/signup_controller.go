@@ -2,8 +2,8 @@
 package v1
 
 import (
-	"go-devops-admin/app"
 	authRequest "go-devops-admin/app/auth/requests"
+	"go-devops-admin/app/base"
 	user "go-devops-admin/app/user/models"
 	"go-devops-admin/pkg/jwt"
 	"go-devops-admin/pkg/response"
@@ -13,7 +13,7 @@ import (
 
 // 注册控制器
 type SignUpController struct {
-	app.BaseAPIController
+	base.BaseAPIController
 }
 
 // 检查手机号是否被注册
@@ -23,7 +23,7 @@ func (sc *SignUpController) IsPhoneExist(c *gin.Context) {
 	request := authRequest.SignUpPhoneExistRequest{}
 
 	// 校验请求数据
-	if ok := app.Validate(c, &request, authRequest.ValidateSignUpPhoneExist); !ok {
+	if ok := base.Validate(c, &request, authRequest.ValidateSignUpPhoneExist); !ok {
 		return
 	}
 	// 检查数据库并返回响应
@@ -36,7 +36,7 @@ func (sc *SignUpController) IsPhoneExist(c *gin.Context) {
 func (sc *SignUpController) IsEmailExist(c *gin.Context) {
 	request := authRequest.SignUpEmailExistRequest{}
 
-	if ok := app.Validate(c, &request, authRequest.ValidateSignUpEmailExist); !ok {
+	if ok := base.Validate(c, &request, authRequest.ValidateSignUpEmailExist); !ok {
 		return
 	}
 
@@ -57,7 +57,7 @@ func (sc *SignUpController) IsEmailExist(c *gin.Context) {
 func (sc *SignUpController) SignUpUsingPhone(c *gin.Context) {
 	// 验证表单
 	request := authRequest.SignUpUsingPhoneRequest{}
-	if ok := app.Validate(c, &request, authRequest.SignUpUsingPhone); !ok {
+	if ok := base.Validate(c, &request, authRequest.SignUpUsingPhone); !ok {
 		return
 	}
 
@@ -91,7 +91,7 @@ func (sc *SignUpController) SignUpUsingPhone(c *gin.Context) {
 func (sc *SignUpController) SignUpUsingEmail(c *gin.Context) {
 	// 验证表单
 	request := authRequest.SignUpUsingEmailRequest{}
-	if ok := app.Validate(c, &request, authRequest.SignUpUsingEmail); !ok {
+	if ok := base.Validate(c, &request, authRequest.SignUpUsingEmail); !ok {
 		return
 	}
 

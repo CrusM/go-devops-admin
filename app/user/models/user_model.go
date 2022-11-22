@@ -1,7 +1,7 @@
 package models
 
 import (
-	"go-devops-admin/app"
+	"go-devops-admin/app/base"
 	"go-devops-admin/pkg/database"
 	"go-devops-admin/pkg/hash"
 
@@ -11,7 +11,7 @@ import (
 // 用户模型
 // json:"-",指定在JSON解析器忽略字段
 type User struct {
-	app.BaseModel
+	base.BaseModel
 
 	Name string `json:"name,omitempty"`
 
@@ -23,7 +23,7 @@ type User struct {
 	Phone    string `json:"-"`
 	Password string `json:"-"`
 
-	app.CommonTimestampField
+	base.CommonTimestampField
 }
 
 func (userModel *User) Create() {
